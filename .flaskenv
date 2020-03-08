@@ -1,0 +1,2 @@
+FLASK_APP=longevity.py
+FLASK_DEBUG=1
