@@ -17,6 +17,8 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
     def check_password(self, password):
+        print(self.password_hash)
+        print(password)
         return check_password_hash(self.password_hash, password)
 
 @login.user_loader
@@ -31,4 +33,3 @@ class Organisation(db.Model):
     
     def __repr__(self):
         return '<Organisation {}>'.format(self.name)
-    
