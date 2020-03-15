@@ -7,7 +7,7 @@
       <div class="card-body">
         <h4 class="card-title">Basic form elements</h4>
         <p class="card-description"> Basic form elements </p>
-        <form class="forms-sample">
+        <form class="forms-sample" method="post" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
           <div class="form-group">
             {{ form.name.label }}

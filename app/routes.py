@@ -1,10 +1,14 @@
+import os
 from flask import render_template, flash, redirect, url_for
-from app import app
-from app.forms import LoginForm, AssetUploadForm
+from flask import request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from app.models import User
-from flask import request
+from werkzeug.utils import secure_filename
+from app import app, db
+from app.forms import LoginForm, AssetUploadForm
+from app.models import User,Organisation
+from app.asset_models import DigitalAsset
+
 
 @app.route('/')
 @app.route('/dashboard')
@@ -22,7 +26,6 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            print('Invalid username or password')
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
@@ -39,14 +42,21 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/upload', methods=['GET', 'POST'])
+@login_required
 def upload():
     form = AssetUploadForm()
     if form.validate_on_submit():
+        asset = DigitalAsset(name=form.name.data,type=form.type.data,organisation_id=current_user.organisation.id)
+
         f = form.file.data
         filename = secure_filename(f.filename)
         f.save(os.path.join(
-            app.instance_path, 'photos', filename
+            app.config['STORAGE_FILE_LOCATION'], filename
         ))
-        return redirect(url_for('dashboard'))
+        
+        db.session.add(asset)
+        db.session.commit()
+        
+        return redirect(url_for('upload'))
 
     return render_template('upload.html', form=form)
