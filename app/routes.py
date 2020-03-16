@@ -1,4 +1,3 @@
-import os
 from flask import render_template, flash, redirect, url_for
 from flask import request
 from flask_login import current_user, login_user, logout_user, login_required
@@ -8,6 +7,7 @@ from app import app, db
 from app.forms import LoginForm, AssetUploadForm
 from app.models import User,Organisation
 from app.asset_models import DigitalAsset
+from app.storage_models import StorageManager
 
 
 @app.route('/')
@@ -46,17 +46,13 @@ def logout():
 def upload():
     form = AssetUploadForm()
     if form.validate_on_submit():
-        asset = DigitalAsset(name=form.name.data,type=form.type.data,organisation_id=current_user.organisation.id)
+        filename = secure_filename(form.file.data.filename)
+        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)
+        db.session.add(digital_asset)
+        db.session.flush()
+        
+        StorageManager.saveAsset(digital_asset,form.file.data)
 
-        f = form.file.data
-        filename = secure_filename(f.filename)
-        f.save(os.path.join(
-            app.config['STORAGE_FILE_LOCATION'], filename
-        ))
-        
-        db.session.add(asset)
-        db.session.commit()
-        
         return redirect(url_for('upload'))
 
     return render_template('upload.html', form=form)
