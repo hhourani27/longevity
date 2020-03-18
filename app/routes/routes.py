@@ -4,10 +4,11 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, AssetUploadForm
-from app.models import User,Organisation
-from app.asset_models import DigitalAsset
-from app.storage_models import StorageManager
+from app.forms.forms import LoginForm, AssetUploadForm
+from app.models.user import User,Organisation
+from app.models.asset import DigitalAsset
+from app.services.asset import AssetManager
+from app.services.storage import StorageManager
 
 
 @app.route('/')
@@ -48,10 +49,9 @@ def upload():
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
         digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)
-        db.session.add(digital_asset)
-        db.session.flush()
         
-        StorageManager.saveAsset(digital_asset,form.file.data)
+        AssetManager.add(digital_asset)
+        StorageManager.storeAsset(digital_asset,form.file.data)
 
         return redirect(url_for('upload'))
 

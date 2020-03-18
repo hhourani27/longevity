@@ -14,4 +14,4 @@ login.login_view = 'login'
 
 #app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
-from app import routes, models, asset_models, storage_models
+from app.routes import routes

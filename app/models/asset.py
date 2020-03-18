@@ -1,5 +1,5 @@
 from app import db
-from app.models import Organisation
+from app.models.user import Organisation
 
 class DigitalAsset(db.Model):
     id = db.Column(db.Integer, primary_key=True)
