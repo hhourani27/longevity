@@ -48,11 +48,9 @@ def upload():
     form = AssetUploadForm()
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
-        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)
+        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)        
+        AssetManager.add_and_store(digital_asset,form.file.data)
         
-        AssetManager.add(digital_asset)
-        StorageManager.storeAsset(digital_asset,form.file.data)
-
         return redirect(url_for('upload'))
 
     return render_template('upload.html', form=form)
