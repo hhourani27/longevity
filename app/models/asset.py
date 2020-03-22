@@ -7,3 +7,16 @@ class DigitalAsset(db.Model):
     name = db.Column(db.String(1024), index=True, nullable=False)
     type = db.Column(db.String(1024), index=True, nullable=False)
     filename = db.Column(db.String(1024))
+        
+class DigitalAssetHistory(db.Model):
+    EVENTS = {
+        'CREATED' : 'CREATED'
+        }
+
+    id = db.Column(db.Integer, primary_key=True)
+    asset_id = db.Column(db.Integer, db.ForeignKey('digital_asset.id'), nullable=False)
+    event = db.Column(db.String(120), nullable=False)
+    timestamp = db.Column(db.DateTime, server_default=db.func.now(), nullable=False)
+    details = db.Column(db.String(1024))
+    
+    digital_asset = db.relationship('DigitalAsset', backref=db.backref('asset_history', lazy='dynamic'))

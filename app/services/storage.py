@@ -3,7 +3,7 @@ import random
 from sqlalchemy import func
 from abc import ABC, abstractmethod
 from app import app, db
-from app.models.storage import DataProvider, DataStorageLocation, DigitalAssetStorage
+from app.models.storage import DataProvider, DataStorageLocation, DigitalAssetStorage, AssetStorageHistory
 
 class StorageSelector : 
     @staticmethod
@@ -27,7 +27,7 @@ class StorageSelector :
 
 class StorageService():
     def storeAssetData(digital_asset,data):
-        storage_locations = StorageSelector.getStorageLocation_random(count=1)
+        storage_locations = StorageSelector.getStorageLocation_random(count=5)
         
         storageManagers = []
         for sl in storage_locations:
@@ -45,15 +45,24 @@ class StorageService():
 
 class StorageManager(ABC) :
 
-    @abstractmethod
     def storeAssetData(self,digital_asset,data) :
+        self.storeAssetData_internal(digital_asset,data)
+        
+        event = AssetStorageHistory(event=AssetStorageHistory.EVENTS['STORED'])
+        event.digital_asset = digital_asset
+        event.storage_location = self.data_storage_location
+        db.session.add(event)
+        db.session.commit()
+
+    @abstractmethod
+    def storeAssetData_internal(self,digital_asset,data) :
         pass
 
 class LocalFileStorageManager(StorageManager) :
     def __init__(self,data_storage_location):
         self.data_storage_location=data_storage_location
     
-    def storeAssetData(self,digital_asset,data):
+    def storeAssetData_internal(self,digital_asset,data):
         
         # Save data in file storage
         data_provider_path = Path(app.config['STORAGE_FILE_LOCATION']).joinpath(str(self.data_storage_location.data_provider.id))

@@ -1,6 +1,8 @@
-DELETE FROM digital_asset_storage;
-DELETE FROM data_storage_location;
-DELETE FROM data_provider;
+DELETE FROM storage_asset_history;
+DELETE FROM storage_asset;
+DELETE FROM storage_data_location;
+DELETE FROM storage_data_provider;
+DELETE FROM digital_asset_history;
 DELETE FROM digital_asset;
 DELETE FROM user;
 DELETE FROM organisation;
@@ -15,13 +17,13 @@ VALUES
 	(1,'habib','h.hourany@gmail.com','Habib','El Hourani','pbkdf2:sha256:150000$BUabOlFq$efd6e49727596d8522bc1759bdaa4dccaffdc50e2e645dd962ebf8a5bf5413fd',1);
 
 
-INSERT INTO data_provider(id,name)
+INSERT INTO storage_data_provider(id,name)
 VALUES
 	(1,'Amazon'),
 	(2,'Google'),
 	(3,'Microsoft');
 	
-INSERT INTO data_storage_location(id,data_provider_id,name,continent,country)
+INSERT INTO storage_data_location(id,data_provider_id,name,continent,country)
 VALUES
 (1,1,'US East (Ohio)','Amérique du Nord','Etats-Unis'),
 (2,1,'US East (N. Virginia)','Amérique du Nord','Etats-Unis'),
