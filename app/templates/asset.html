@@ -1,0 +1,58 @@
+{% extends "admin.html" %}
+
+{% block page_content %}
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Sélectionner un Asset</h4>
+        <p class="card-description"> Consulter la fiche d'un Asset </p>
+        
+        <script>
+          function process()
+          {
+              var url = "{{ url_for('asset_info') }}" +"/"+ document.getElementById("id").value;
+              console.log(url)
+              location.href = url;
+              return false;
+          }
+        </script>
+        <form class="form-inline" onSubmit="return process()"; novalidate>
+          <div class="form-group">
+            {{ form.id.label(class="sr-only") }}
+            {{ form.id(class="form-control mb-2 mr-sm-2") }}
+          </div>
+          {{ form.submit(class="btn btn-gradient-primary mb-2") }}
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% if asset is defined %}
+  {% if asset is not none %}
+  <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Fiche de l'Asset</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>
+                  Nom
+                </td>
+                <td>
+                  {{asset.name}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+  {% endif %}
+{% endblock %}

@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms.forms import LoginForm, AssetUploadForm
+from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm
 from app.models.user import User,Organisation
 from app.models.asset import DigitalAsset
 from app.services.asset import AssetManager
@@ -42,6 +42,17 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/asset', defaults={'id': None}, methods=['GET'])
+@app.route('/asset/<id>', methods=['GET'])
+@login_required
+def asset_info(id):
+    form = AssetGetForm()
+    if id is not None :
+        asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
+        return render_template('asset.html', title='Asset', form=form, asset=asset)
+    else:
+        return render_template('asset.html', title='Asset', form=form)
+
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
@@ -51,6 +62,9 @@ def upload():
         digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)        
         AssetManager.add_and_store(digital_asset,form.file.data)
         
-        return redirect(url_for('upload'))
+        print("ICI")
+        print(digital_asset.id)
+        return redirect(url_for('asset_info') + '/' + str(digital_asset.id))
 
-    return render_template('upload.html', form=form)
+    return render_template('upload.html', title='Upload asset', form=form)
+    

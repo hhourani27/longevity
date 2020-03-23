@@ -15,3 +15,8 @@ class AssetUploadForm(FlaskForm):
     type = SelectField('Type', choices = [('image','Image')], validators=[DataRequired()])
     file = FileField(validators=[FileRequired()])
     submit = SubmitField('Submit')
+    
+
+class AssetGetForm(FlaskForm):
+    id = StringField('ID', validators=[DataRequired()])
+    submit = SubmitField('Submit')
