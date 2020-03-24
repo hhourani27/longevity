@@ -27,23 +27,48 @@ class StorageSelector :
 
 class StorageService():
     def storeAssetData(digital_asset,data):
+        # Select random storage locations
         storage_locations = StorageSelector.getStorageLocation_random(count=5)
         
+        # Create Storage Manager objects
         storageManagers = []
         for sl in storage_locations:
-            if sl.data_provider.name == 'Google':
-                storageManagers.append(LocalFileStorageManager(sl))
-            elif sl.data_provider.name == 'Amazon':
-                storageManagers.append(LocalFileStorageManager(sl))
-            elif sl.data_provider.name == 'Microsoft':
-                storageManagers.append(LocalFileStorageManager(sl))
+            storageManagers.append(StorageManager.getStorageManager(sl))
         
+        # For each Storage Manager object, store the data
         for sm in storageManagers:
             sm.storeAssetData(digital_asset,data)
-            
+        
+        # Return the storage locations
         return storage_locations
 
+    def getAssetData(digital_asset):
+        # Get the first storage location where the asset is stored
+        asset_storage = DigitalAssetStorage.query.filter_by(asset_id=digital_asset.id).first()
+        storage_location = asset_storage.data_storage_location
+        
+        # Create the Storage Manager object
+        storageManager = StorageManager.getStorageManager(storage_location)
+        
+        # Get the data
+        return storageManager.getAssetData(digital_asset)
+        
+
+# A class that manages communication with a Data Location
 class StorageManager(ABC) :
+
+    @staticmethod
+    def getStorageManager(storage_location) :
+        if storage_location.data_provider.name == 'Google':
+            return LocalFileStorageManager(storage_location)
+        elif storage_location.data_provider.name == 'Amazon':
+            return LocalFileStorageManager(storage_location)
+        elif storage_location.data_provider.name == 'Microsoft':
+            return LocalFileStorageManager(storage_location)    
+
+    @abstractmethod
+    def getAssetData(self, digital_asset) :
+        pass   
 
     def storeAssetData(self,digital_asset,data) :
         self.storeAssetData_internal(digital_asset,data)
@@ -57,10 +82,18 @@ class StorageManager(ABC) :
     @abstractmethod
     def storeAssetData_internal(self,digital_asset,data) :
         pass
+        
+
 
 class LocalFileStorageManager(StorageManager) :
     def __init__(self,data_storage_location):
         self.data_storage_location=data_storage_location
+
+    def getAssetData(self,digital_asset) :
+        asset_storage = DigitalAssetStorage.query.filter_by(asset_id=digital_asset.id, data_storage_location_id=self.data_storage_location.id).first()
+        file_path = Path(asset_storage.uri[10:]) # Remove file:// part of the uri
+        data = file_path.read_bytes()
+        return data
     
     def storeAssetData_internal(self,digital_asset,data):
         

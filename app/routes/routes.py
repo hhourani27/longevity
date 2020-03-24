@@ -1,14 +1,14 @@
-from flask import render_template, flash, redirect, url_for
-from flask import request
+from flask import render_template, flash, redirect, url_for, request, make_response
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app import app, db
 from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm
 from app.models.user import User,Organisation
-from app.models.asset import DigitalAsset
-from app.services.asset import AssetManager
-from app.services.storage import StorageManager
+from app.models.asset import DigitalAsset, DigitalAssetHistory
+from app.models.storage import AssetStorageHistory
+from app.services.asset import AssetService
+from app.services.storage import StorageService
 
 
 @app.route('/')
@@ -42,16 +42,40 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
 @app.route('/asset', defaults={'id': None}, methods=['GET'])
 @app.route('/asset/<id>', methods=['GET'])
 @login_required
 def asset_info(id):
     form = AssetGetForm()
     if id is not None :
+        # Get asset
         asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
-        return render_template('asset.html', title='Asset', form=form, asset=asset)
+        
+        # Get asset history
+        asset_history = asset.asset_history.all()
+        storage_history = asset.storage_history.all()
+        history_list = asset_history + storage_history
+        history_types = ['ASSET' for h in asset_history] + ['STORAGE' for h in storage_history]
+        
+        # Pre-fill search bar
+        form.id.data = id
+        
+        return render_template('asset.html', title='Asset', form=form, asset=asset, history_list=history_list, history_types=history_types, searched_id=id)
     else:
         return render_template('asset.html', title='Asset', form=form)
+
+
+@app.route('/asset/<id>/data', methods=['GET'])
+@login_required
+def asset_data(id):
+    asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
+    data = StorageService.getAssetData(asset)
+    response = make_response(data)
+    response.headers.set('Content-Type', 'image/png')
+    response.headers.set('Content-Disposition', 'attachment', filename=asset.filename)
+    return response
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
@@ -60,10 +84,8 @@ def upload():
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
         digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)        
-        AssetManager.add_and_store(digital_asset,form.file.data)
+        AssetService.add_and_store(digital_asset,form.file.data)
         
-        print("ICI")
-        print(digital_asset.id)
         return redirect(url_for('asset_info') + '/' + str(digital_asset.id))
 
     return render_template('upload.html', title='Upload asset', form=form)

@@ -2,7 +2,7 @@ from app import app, db
 from app.models.asset import DigitalAsset, DigitalAssetHistory
 from app.services.storage import StorageService
 
-class AssetManager : 
+class AssetService : 
     @staticmethod
     def add(digital_asset):
         db.session.add(digital_asset)
@@ -15,6 +15,8 @@ class AssetManager :
 
     @staticmethod    
     def add_and_store(digital_asset,data):
-        AssetManager.add(digital_asset)
+        print("ICI")
+        print(type(data))
+        AssetService.add(digital_asset)
         storage_locations = StorageService.storeAssetData(digital_asset,data)
         return storage_locations

@@ -38,6 +38,10 @@ class DigitalAssetStorage(db.Model):
     data_storage_location = db.relationship('DataStorageLocation', backref='digital_assets')
     digital_asset = db.relationship('DigitalAsset', backref='storage_locations')
 
+    def __repr__(self):
+        return '<DigitalAssetStorage (digital_asset : {}, data_storage_location : {} )>'.format(self.asset_id.name,self.data_storage_location_id)
+
+
 class AssetStorageHistory(db.Model):
     __tablename__ = 'storage_asset_history'
     

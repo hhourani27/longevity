@@ -29,9 +29,21 @@
   </div>
   </div>
   {% if asset is defined %}
+  {% if asset is none %}
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p>Aucun Asset n'existe avec l'ID <code>{{searched_id}}</code>. Veuillez refaire votre recherche
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
   {% if asset is not none %}
   <div class="row">
-      <div class="col-12 grid-margin stretch-card">
+    <div class="col-7 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Fiche de l'Asset</h4>
@@ -39,13 +51,87 @@
           <table class="table">
             <tbody>
               <tr>
+                <td class="text-muted">
+                  ID
+                </td>
                 <td>
+                  {{asset.id}}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-muted">
                   Nom
                 </td>
                 <td>
                   {{asset.name}}
                 </td>
               </tr>
+              <tr>
+                <td class="text-muted">
+                  Type
+                </td>
+                <td>
+                  {{asset.type}}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-muted">
+                  Nom du fichier
+                </td>
+                <td>
+                  {{asset.filename}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-5 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <img src="{{asset.id}}/data" class="mw-100 w-100 rounded">
+        </div>
+      </div>
+    </div>  
+  </div>
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Historique de l'asset</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Date
+                </th>
+                <th>
+                  Evènement
+                </th>
+                <th>
+                  Détails
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for h in history_list %}
+            <tr>
+              <td>
+                {{h.timestamp}}
+              </td>
+              <td>
+                {{h.event}}
+              </td>
+              <td>
+                {% if history_types[loop.index0] == 'STORAGE' %}
+                  {{h.storage_location.data_provider.name}}: {{h.storage_location.name}}
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
             </tbody>
           </table>
         </div>
