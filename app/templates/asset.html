@@ -97,6 +97,48 @@
     </div>  
   </div>
   <div class="row">
+     <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Localisation</h4>
+        <p class="card-description"> Cet Asset est stocké dans les Data Center suivants</p>
+        <div class="row">
+          <div class="col-7 pr-1">
+            <div id="mapid" style="max-width: 100%; height: 250px"></div>
+          </div>
+          <div class="col-5 pl-10">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Provider
+                </th>
+                <th>
+                  Emplacement
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for sl in storage_locations %}
+              <tr>
+                <td>
+                  {{sl.data_provider.name}}
+                </td>
+                <td>
+                  {{sl.name}}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="row">
     <div class="col-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
@@ -117,18 +159,16 @@
               </tr>
             </thead>
             <tbody>
-            {% for h in history_list %}
+            {% for h in history_table %}
             <tr>
               <td>
-                {{h.timestamp}}
+                {{h[0]}}
               </td>
               <td>
-                {{h.event}}
+                {{h[1]}}
               </td>
               <td>
-                {% if history_types[loop.index0] == 'STORAGE' %}
-                  {{h.storage_location.data_provider.name}}: {{h.storage_location.name}}
-                {% endif %}
+                {{h[2]}}
               </td>
             </tr>
             {% endfor %}
@@ -139,6 +179,28 @@
     </div>
   </div>
   </div>
+
+
   {% endif %}
   {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+      var mymap = L.map('mapid').setView([20, 0], 1);
+      
+      	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+    
+    {% for sl in storage_locations %}
+      var marker{{loop.index0}} = new L.marker([{{sl.latitude}}, {{sl.longitude}}]).bindPopup("{{sl.name}}").addTo(mymap);
+    {% endfor %}
+  </script>
 {% endblock %}

@@ -23,6 +23,8 @@ class DataStorageLocation(db.Model):
     name = db.Column(db.String(120), index=True, nullable=False)
     continent = db.Column(db.String(120), index=True, nullable=False)
     country = db.Column(db.String(120), index=True, nullable=False)
+    longitude = db.Column(db.String(10))
+    latitude = db.Column(db.String(10))
 
     def __repr__(self):
         return '<DataStorageLocation (data_provider : {}, name : {} )>'.format(self.data_provider.name,self.name)
@@ -39,7 +41,7 @@ class DigitalAssetStorage(db.Model):
     digital_asset = db.relationship('DigitalAsset', backref='storage_locations')
 
     def __repr__(self):
-        return '<DigitalAssetStorage (digital_asset : {}, data_storage_location : {} )>'.format(self.asset_id.name,self.data_storage_location_id)
+        return '<DigitalAssetStorage (digital_asset : {}, data_storage_location : {} )>'.format(self.asset_id,self.data_storage_location_id)
 
 
 class AssetStorageHistory(db.Model):

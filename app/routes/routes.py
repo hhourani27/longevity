@@ -52,16 +52,28 @@ def asset_info(id):
         # Get asset
         asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
         
+        # If no asset of this id exists in this organisation
+        if asset is None :
+            return render_template('asset.html', title='Asset', form=form, asset=asset, searched_id=id)
+        
+        # Get storage location
+        storage_locations = [asl.data_storage_location for asl in asset.storage_locations]
+        
         # Get asset history
-        asset_history = asset.asset_history.all()
+        asset_history = asset.asset_history.all()        
         storage_history = asset.storage_history.all()
         history_list = asset_history + storage_history
-        history_types = ['ASSET' for h in asset_history] + ['STORAGE' for h in storage_history]
+        history_list.sort(key = lambda h: h.timestamp)
+        
+        history_table = []
+        for h in history_list:
+            detail = h.storage_location.data_provider.name + " : " + h.storage_location.name if isinstance(h,AssetStorageHistory) else ''
+            history_table.append((h.timestamp, h.event, detail))
         
         # Pre-fill search bar
         form.id.data = id
         
-        return render_template('asset.html', title='Asset', form=form, asset=asset, history_list=history_list, history_types=history_types, searched_id=id)
+        return render_template('asset.html', title='Asset', form=form, asset=asset, storage_locations=storage_locations, history_table=history_table, searched_id=id)
     else:
         return render_template('asset.html', title='Asset', form=form)
 
@@ -72,7 +84,7 @@ def asset_data(id):
     asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
     data = StorageService.getAssetData(asset)
     response = make_response(data)
-    response.headers.set('Content-Type', 'image/png')
+    response.headers.set('Content-Type', 'image/jpg')
     response.headers.set('Content-Disposition', 'attachment', filename=asset.filename)
     return response
 
@@ -83,8 +95,12 @@ def upload():
     form = AssetUploadForm()
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
-        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)        
-        AssetService.add_and_store(digital_asset,form.file.data)
+        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)
+
+        # Get file data and save it to byte array
+        data = form.file.data.read()
+        form.file.data.close()
+        AssetService.add_and_store(digital_asset,data)
         
         return redirect(url_for('asset_info') + '/' + str(digital_asset.id))
 

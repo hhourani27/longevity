@@ -27,6 +27,7 @@ class StorageSelector :
 
 class StorageService():
     def storeAssetData(digital_asset,data):
+    
         # Select random storage locations
         storage_locations = StorageSelector.getStorageLocation_random(count=5)
         
@@ -112,7 +113,7 @@ class LocalFileStorageManager(StorageManager) :
             file_storage_name += filename[filename.find('.'):]
         
         file_path = data_storage_path.joinpath(file_storage_name)
-        data.save(file_path)
+        file_path.write_bytes(data)
         
         # Add digital_asset_storage entry in db
         asset_storage = DigitalAssetStorage(uri=file_path.as_uri())
