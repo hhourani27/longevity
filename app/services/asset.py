@@ -1,8 +1,16 @@
 from app import app, db
-from app.models.asset import DigitalAsset, DigitalAssetHistory
+from app.models.asset import DigitalAsset, DigitalAssetHistory, Collection
 from app.services.storage import StorageService
+from flask_login import current_user
 
 class AssetService : 
+    @staticmethod
+    def count(collection=None):
+        if collection is None :
+            return DigitalAsset.query.filter_by(organisation_id=current_user.organisation.id).count()
+        else :
+            return DigitalAsset.query.filter_by(organisation_id=current_user.organisation.id, collection_id=collection.id).count()
+
     @staticmethod
     def add(digital_asset):
         db.session.add(digital_asset)
@@ -13,8 +21,20 @@ class AssetService :
         
         db.session.commit()
 
-    @staticmethod    
+    @staticmethod
     def add_and_store(digital_asset,data):
         AssetService.add(digital_asset)
         storage_locations = StorageService.storeAssetData(digital_asset,data)
         return storage_locations
+        
+
+        
+class CollectionService :
+    @staticmethod
+    def get_all():
+        collections = Collection.query.filter_by(organisation_id=current_user.organisation.id).all()
+        return collections if collections is not None else []
+    
+    @staticmethod
+    def count():
+        return Collection.query.filter_by(organisation_id=current_user.organisation.id).count() 

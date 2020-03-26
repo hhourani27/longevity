@@ -3,7 +3,9 @@ import random
 from sqlalchemy import func
 from abc import ABC, abstractmethod
 from app import app, db
+from app.models.asset import DigitalAsset
 from app.models.storage import DataProvider, DataStorageLocation, DigitalAssetStorage, AssetStorageHistory
+from flask_login import current_user
 
 class StorageSelector : 
     @staticmethod
@@ -53,6 +55,12 @@ class StorageService():
         
         # Get the data
         return storageManager.getAssetData(digital_asset)
+        
+    def getStorageLocations():
+        query = db.session().query(DataStorageLocation).join(DigitalAssetStorage).join(DigitalAsset).filter(DigitalAsset.organisation_id==current_user.organisation_id)
+        storage_locations = query.all()
+        
+        return storage_locations
         
 
 # A class that manages communication with a Data Location

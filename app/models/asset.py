@@ -10,7 +10,7 @@ class Collection(db.Model):
     assets = db.relationship('DigitalAsset', backref='collection', lazy='dynamic')
 
     def __repr__(self):
-        return '<Collection {}>'.format(self.name)
+        return '<Collection : {}>'.format(self.name)
 
 class DigitalAsset(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,6 +19,9 @@ class DigitalAsset(db.Model):
     name = db.Column(db.String(1024), index=True, nullable=False)
     type = db.Column(db.String(1024), index=True, nullable=False)
     filename = db.Column(db.String(1024))
+
+    def __repr__(self):
+        return '<DigitalAsset : {}>'.format(self.id)
         
 class DigitalAssetHistory(db.Model):
     EVENTS = {

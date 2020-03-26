@@ -7,7 +7,7 @@ from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm
 from app.models.user import User,Organisation
 from app.models.asset import DigitalAsset, DigitalAssetHistory, Collection
 from app.models.storage import AssetStorageHistory
-from app.services.asset import AssetService
+from app.services.asset import AssetService, CollectionService
 from app.services.storage import StorageService
 
 
@@ -15,8 +15,10 @@ from app.services.storage import StorageService
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    user = {'username': 'Miguel'}
-    return render_template('dashboard.html', title='Home', user=user)
+    asset_count = AssetService.count()
+    collection_count = CollectionService.count()
+    storage_locations = StorageService.getStorageLocations()
+    return render_template('dashboard.html', title='Home', asset_count=asset_count, collection_count=collection_count, storage_locations=storage_locations)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -95,7 +97,7 @@ def upload():
     form = AssetUploadForm()
     
     # Populate collection combo box with the collections of this organisation
-    collections = Collection.query.filter_by(organisation_id=current_user.organisation_id).all()
+    collections = CollectionService.get_all()
     collections_to_select = [(col.id,col.name) for col in collections]
     form.collection.choices = collections_to_select
     
