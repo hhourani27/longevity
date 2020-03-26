@@ -15,8 +15,6 @@ class AssetService :
 
     @staticmethod    
     def add_and_store(digital_asset,data):
-        print("ICI")
-        print(type(data))
         AssetService.add(digital_asset)
         storage_locations = StorageService.storeAssetData(digital_asset,data)
         return storage_locations

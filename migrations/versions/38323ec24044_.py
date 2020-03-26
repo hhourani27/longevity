@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b915bb84bd2d
+Revision ID: 38323ec24044
 Revises: 
-Create Date: 2020-03-25 21:14:45.785909
+Create Date: 2020-03-26 09:49:14.150569
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b915bb84bd2d'
+revision = '38323ec24044'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,17 +30,16 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_storage_data_provider_name'), 'storage_data_provider', ['name'], unique=True)
-    op.create_table('digital_asset',
+    op.create_table('collection',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('organisation_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=1024), nullable=False),
-    sa.Column('type', sa.String(length=1024), nullable=False),
-    sa.Column('filename', sa.String(length=1024), nullable=True),
+    sa.Column('description', sa.String(length=1024), nullable=False),
     sa.ForeignKeyConstraint(['organisation_id'], ['organisation.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_digital_asset_name'), 'digital_asset', ['name'], unique=False)
-    op.create_index(op.f('ix_digital_asset_type'), 'digital_asset', ['type'], unique=False)
+    op.create_index(op.f('ix_collection_description'), 'collection', ['description'], unique=False)
+    op.create_index(op.f('ix_collection_name'), 'collection', ['name'], unique=False)
     op.create_table('storage_data_location',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('data_provider_id', sa.Integer(), nullable=False),
@@ -68,6 +67,19 @@ def upgrade():
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     op.create_index(op.f('ix_user_username'), 'user', ['username'], unique=True)
+    op.create_table('digital_asset',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('collection_id', sa.Integer(), nullable=False),
+    sa.Column('organisation_id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=1024), nullable=False),
+    sa.Column('type', sa.String(length=1024), nullable=False),
+    sa.Column('filename', sa.String(length=1024), nullable=True),
+    sa.ForeignKeyConstraint(['collection_id'], ['collection.id'], ),
+    sa.ForeignKeyConstraint(['organisation_id'], ['organisation.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_digital_asset_name'), 'digital_asset', ['name'], unique=False)
+    op.create_index(op.f('ix_digital_asset_type'), 'digital_asset', ['type'], unique=False)
     op.create_table('digital_asset_history',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('asset_id', sa.Integer(), nullable=False),
@@ -103,6 +115,9 @@ def downgrade():
     op.drop_table('storage_asset_history')
     op.drop_table('storage_asset')
     op.drop_table('digital_asset_history')
+    op.drop_index(op.f('ix_digital_asset_type'), table_name='digital_asset')
+    op.drop_index(op.f('ix_digital_asset_name'), table_name='digital_asset')
+    op.drop_table('digital_asset')
     op.drop_index(op.f('ix_user_username'), table_name='user')
     op.drop_index(op.f('ix_user_email'), table_name='user')
     op.drop_table('user')
@@ -110,9 +125,9 @@ def downgrade():
     op.drop_index(op.f('ix_storage_data_location_country'), table_name='storage_data_location')
     op.drop_index(op.f('ix_storage_data_location_continent'), table_name='storage_data_location')
     op.drop_table('storage_data_location')
-    op.drop_index(op.f('ix_digital_asset_type'), table_name='digital_asset')
-    op.drop_index(op.f('ix_digital_asset_name'), table_name='digital_asset')
-    op.drop_table('digital_asset')
+    op.drop_index(op.f('ix_collection_name'), table_name='collection')
+    op.drop_index(op.f('ix_collection_description'), table_name='collection')
+    op.drop_table('collection')
     op.drop_index(op.f('ix_storage_data_provider_name'), table_name='storage_data_provider')
     op.drop_table('storage_data_provider')
     op.drop_table('organisation')

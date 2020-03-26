@@ -4,6 +4,7 @@ DELETE FROM storage_data_location;
 DELETE FROM storage_data_provider;
 DELETE FROM digital_asset_history;
 DELETE FROM digital_asset;
+DELETE FROM collection;
 DELETE FROM user;
 DELETE FROM organisation;
 
@@ -11,11 +12,14 @@ INSERT INTO organisation(id,name)
 VALUES
 	(1,'Institut de la Préservation digitale');
 
-
 INSERT INTO user (id,username,email,first_name,last_name,password_hash,organisation_id)
 VALUES
 	(1,'habib','h.hourany@gmail.com','Habib','El Hourani','pbkdf2:sha256:150000$BUabOlFq$efd6e49727596d8522bc1759bdaa4dccaffdc50e2e645dd962ebf8a5bf5413fd',1);
 
+INSERT INTO collection(id,name,description,organisation_id)
+VALUES
+	(1,'Manuscripts de Caedmon','Collection contenant les Manuscripts de Caedmon', 1),
+	(2,'Apocalypse flamande','Collection contenant Apocalypse flamande', 1);
 
 INSERT INTO storage_data_provider(id,name)
 VALUES

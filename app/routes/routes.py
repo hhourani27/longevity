@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from app import app, db
 from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm
 from app.models.user import User,Organisation
-from app.models.asset import DigitalAsset, DigitalAssetHistory
+from app.models.asset import DigitalAsset, DigitalAssetHistory, Collection
 from app.models.storage import AssetStorageHistory
 from app.services.asset import AssetService
 from app.services.storage import StorageService
@@ -93,16 +93,25 @@ def asset_data(id):
 @login_required
 def upload():
     form = AssetUploadForm()
+    
+    # Populate collection combo box with the collections of this organisation
+    collections = Collection.query.filter_by(organisation_id=current_user.organisation_id).all()
+    collections_to_select = [(col.id,col.name) for col in collections]
+    form.collection.choices = collections_to_select
+    
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
-        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation.id)
+        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation_id, collection_id=form.collection.data)
 
         # Get file data and save it to byte array
         data = form.file.data.read()
         form.file.data.close()
+        
+        # Create and store data
         AssetService.add_and_store(digital_asset,data)
         
         return redirect(url_for('asset_info') + '/' + str(digital_asset.id))
 
+    
     return render_template('upload.html', title='Upload asset', form=form)
     

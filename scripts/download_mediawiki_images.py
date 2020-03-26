@@ -7,8 +7,7 @@ DIR = 'C:/Users/HabibElHourani/Desktop/tools/test2/longevity/data/images'
 site = mwclient.Site('commons.wikimedia.org')
 
 categories = [
-    'Caedmon manuscript',
-    'Bible_of_Wenceslaus_IV.'
+    'Apocalypse flamande - BNF Néerl3'
     ]
 
 for category_name in categories : 
