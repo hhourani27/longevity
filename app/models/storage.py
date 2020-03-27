@@ -48,7 +48,8 @@ class AssetStorageHistory(db.Model):
     __tablename__ = 'storage_asset_history'
     
     EVENTS = {
-        'STORED' : 'STORED'
+        'STORED' : 'STORED',
+        'READ_DATA' : 'READ_DATA'
         }
 
     id = db.Column(db.Integer, primary_key=True)

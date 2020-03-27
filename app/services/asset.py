@@ -10,6 +10,18 @@ class AssetService :
             return DigitalAsset.query.filter_by(organisation_id=current_user.organisation.id).count()
         else :
             return DigitalAsset.query.filter_by(organisation_id=current_user.organisation.id, collection_id=collection.id).count()
+            
+    @staticmethod
+    def get(id) :
+        asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
+        
+        if asset is not None :
+            event = DigitalAssetHistory(event=DigitalAssetHistory.EVENTS['READ'])
+            event.digital_asset = asset
+            db.session.add(event)
+            db.session.commit()
+        
+        return asset
 
     @staticmethod
     def add(digital_asset):

@@ -15,10 +15,31 @@ from app.services.storage import StorageService
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    asset_count = AssetService.count()
-    collection_count = CollectionService.count()
+    total_asset_count = AssetService.count()
+    total_collection_count = CollectionService.count()
+    total_read_count = StorageService.getReadCount()
+        
+    collections = CollectionService.get_all()
+    collection_asset_count = [AssetService.count(c) for c in collections]
+    collection_read_count = [StorageService.getReadCount(c) for c in collections]
+
     storage_locations = StorageService.getStorageLocations()
-    return render_template('dashboard.html', title='Home', asset_count=asset_count, collection_count=collection_count, storage_locations=storage_locations)
+    storage_regions = list(set([sl.continent for sl in storage_locations]))
+    storage_regions.sort()
+    storage_providers = list(set([sl.data_provider for sl in storage_locations]))
+    storage_providers.sort(key = lambda p: p.name)
+    
+    return render_template('dashboard.html', title='Home', 
+        total_asset_count=total_asset_count, 
+        total_collection_count=total_collection_count, 
+        total_read_count = total_read_count,
+        collections = collections,
+        collection_asset_count = collection_asset_count,
+        collection_read_count = collection_read_count,
+        storage_locations=storage_locations,
+        storage_regions = storage_regions,
+        storage_providers = storage_providers
+        )
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -65,7 +86,7 @@ def asset_info(id):
         asset_history = asset.asset_history.all()        
         storage_history = asset.storage_history.all()
         history_list = asset_history + storage_history
-        history_list.sort(key = lambda h: h.timestamp)
+        history_list.sort(key = lambda h: h.timestamp, reverse=True)
         
         history_table = []
         for h in history_list:
@@ -83,8 +104,9 @@ def asset_info(id):
 @app.route('/asset/<id>/data', methods=['GET'])
 @login_required
 def asset_data(id):
-    asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
+    asset = AssetService.get(id)
     data = StorageService.getAssetData(asset)
+    
     response = make_response(data)
     response.headers.set('Content-Type', 'image/jpg')
     response.headers.set('Content-Disposition', 'attachment', filename=asset.filename)

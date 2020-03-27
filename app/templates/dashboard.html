@@ -12,9 +12,9 @@
         <div class="card bg-gradient-danger card-img-holder text-white">
           <div class="card-body">
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-5">Total Assets <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-5">Total Assets <i class="mdi mdi-archive mdi-24px float-right"></i>
             </h4>
-            <h1 class="mb-3">{{asset_count}}</h1>
+            <h1 class="mb-3">{{total_asset_count}}</h1>
           </div>
         </div>
       </div>
@@ -22,9 +22,9 @@
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-5">Nombre de Collections <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-5">Nombre de Collections <i class="mdi mdi-rhombus-split mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-3">{{collection_count}}</h2>
+            <h2 class="mb-3">{{total_collection_count}}</h2>
           </div>
         </div>
       </div>
@@ -32,11 +32,128 @@
         <div class="card bg-gradient-success card-img-holder text-white">
           <div class="card-body">
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-5">Nombre d'entrepots <i class="mdi mdi-diamond mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-5">Nombre d'Accès <i class="mdi mdi-eye mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-3">{{storage_locations|length}}</h2>
+            <h2 class="mb-3">{{total_read_count}}</h2>
           </div>
         </div>
       </div>
     </div>
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Collections</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Collection
+                </th>
+                <th>
+                  Nombre d'Assets
+                </th>
+                <th>
+                  Nombre d'accès
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for c in collections %}
+            <tr>
+              <td>
+                {{c.name}}
+              </td>
+              <td>
+                {{collection_asset_count[loop.index0]}}
+              </td>
+              <td>
+                {{collection_read_count[loop.index0]}}
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+     <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Localisation</h4>
+        <p class="card-description"> Liste des Data centers où sont stockés vos données </p>
+        <div class="row">
+          <div class="col-8 pr-1">
+            <div id="mapid" style="max-width: 100%; height: 250px"></div>
+          </div>
+          <div class="col-2 pl-10">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Régions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for region in storage_regions %}
+              <tr>
+                <td>
+                  {{region}}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          </div>
+          <div class="col-2 pl-10">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Data Providers
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for provider in storage_providers %}
+              <tr>
+                <td>
+                  {{provider.name}}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+      var mymap = L.map('mapid').setView([20, 0], 1);
+      
+      	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+    
+    {% for sl in storage_locations %}
+      var marker{{loop.index0}} = new L.marker([{{sl.latitude}}, {{sl.longitude}}]).bindPopup("{{sl.name}}").addTo(mymap);
+    {% endfor %}
+  </script>
 {% endblock %}

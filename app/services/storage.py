@@ -54,13 +54,36 @@ class StorageService():
         storageManager = StorageManager.getStorageManager(storage_location)
         
         # Get the data
-        return storageManager.getAssetData(digital_asset)
+        data = storageManager.getAssetData(digital_asset)
+        
+        # Create read event
+        event = AssetStorageHistory(event=AssetStorageHistory.EVENTS['READ_DATA'])
+        event.digital_asset = digital_asset
+        event.storage_location = storage_location
+        db.session.add(event)
+        db.session.commit()
+        
+        return data
         
     def getStorageLocations():
         query = db.session().query(DataStorageLocation).join(DigitalAssetStorage).join(DigitalAsset).filter(DigitalAsset.organisation_id==current_user.organisation_id)
         storage_locations = query.all()
         
         return storage_locations
+        
+    def getReadCount(collection = None):
+        query = (
+            db.session.query(AssetStorageHistory)
+            .join(DigitalAsset).
+            filter(DigitalAsset.organisation_id==current_user.organisation_id, AssetStorageHistory.event==AssetStorageHistory.EVENTS['READ_DATA'])
+            )
+        
+        if collection is not None : 
+            query = query.filter(DigitalAsset.collection_id == collection.id)
+        
+        read_count = query.count()
+        
+        return read_count
         
 
 # A class that manages communication with a Data Location

@@ -25,7 +25,8 @@ class DigitalAsset(db.Model):
         
 class DigitalAssetHistory(db.Model):
     EVENTS = {
-        'CREATED' : 'CREATED'
+        'CREATED' : 'CREATED',
+        'READ' : 'READ'
         }
 
     id = db.Column(db.Integer, primary_key=True)
