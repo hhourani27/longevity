@@ -3,13 +3,13 @@ import random
 from sqlalchemy import func
 from abc import ABC, abstractmethod
 from app import app, db
-from app.models.asset import DigitalAsset
-from app.models.storage import DataProvider, DataStorageLocation, DigitalAssetStorage, AssetStorageHistory
+from app.models.asset import DigitalAsset, Collection
+from app.models.storage import DataProvider, DataStorageLocation, DigitalAssetStorage, AssetStorageHistory, StorageStrategy
 from flask_login import current_user
 
 class StorageSelector : 
     @staticmethod
-    def getStorageLocation_random(count = 1):
+    def getStorageLocations_random(count = 1):
         data_providers = DataProvider.query.all()
         
         selected_data_providers = dict()
@@ -27,12 +27,23 @@ class StorageSelector :
             
         return selected_storage_locations
 
+    @staticmethod
+    def getStorageLocations(collection):
+        storage_strategy = StorageStrategy.query.filter_by(collection_id=collection.id).first()
+        
+        storage_locations = []
+        for sl in storage_strategy.strategy['instance']['storage_locations']:
+            storage_locations.append(DataStorageLocation.query.get(sl['id']))
+            
+        return storage_locations
+    
+
 class StorageService():
     @staticmethod
     def storeAssetData(digital_asset,data):
     
-        # Select random storage locations
-        storage_locations = StorageSelector.getStorageLocation_random(count=3)
+        # Get the storage locations per the collection strategy
+        storage_locations = StorageSelector.getStorageLocations(digital_asset.collection)
         
         # Create Storage Manager objects
         storageManagers = []

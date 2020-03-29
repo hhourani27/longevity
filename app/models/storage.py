@@ -1,5 +1,5 @@
 from app import db
-from app.models.asset import DigitalAsset
+from app.models.asset import DigitalAsset, Collection
 
 # Represent a Data Provider (Google, Amazon, Microsoft...)
 class DataProvider(db.Model):
@@ -60,3 +60,12 @@ class AssetStorageHistory(db.Model):
 
     digital_asset = db.relationship('DigitalAsset', backref=db.backref('storage_history', lazy='dynamic'))
     storage_location = db.relationship('DataStorageLocation', backref=db.backref('storage_data_location', lazy='dynamic'))
+    
+class StorageStrategy(db.Model):
+    __tablename__ = 'storage_strategy'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False, unique=True)
+    strategy = db.Column(db.JSON, nullable=False)
+    
+    collection = db.relationship('Collection', backref='storage_strategy', uselist=False)

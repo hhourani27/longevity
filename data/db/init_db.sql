@@ -1,5 +1,6 @@
 DELETE FROM storage_asset_history;
 DELETE FROM storage_asset;
+DELETE FROM storage_strategy;
 DELETE FROM storage_data_location;
 DELETE FROM storage_data_provider;
 DELETE FROM digital_asset_history;
@@ -119,4 +120,10 @@ VALUES
 (88,3,'Australia East','Asie-Pacifique','Australie','151','-31'),
 (89,3,'Australia Southeast','Asie-Pacifique','Australie','148','-37'),
 (90,3,'Australia Central','Asie-Pacifique','Australie','132','-29'),
-(91,3,'Australia Central 2','Asie-Pacifique','Australie','133','-24')
+(91,3,'Australia Central 2','Asie-Pacifique','Australie','133','-24');
+
+
+INSERT INTO storage_strategy(id,collection_id,strategy)
+VALUES
+	(1,1,'{"strategy":{"level":1,"redundancy":{"provider":2,"location":2},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":13,"region":"","country":"","provider":{"id":1,"name":""}},{"id":16,"region":"","country":"","provider":{"id":1,"name":""}},{"id":27,"region":"","country":"","provider":{"id":1,"name":""}}]}}'),
+	(2,2,'{"strategy":{"level":1,"redundancy":{"provider":2,"location":2},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":13,"region":"","country":"","provider":{"id":1,"name":""}},{"id":16,"region":"","country":"","provider":{"id":1,"name":""}},{"id":27,"region":"","country":"","provider":{"id":1,"name":""}}]}}')
