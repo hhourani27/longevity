@@ -32,7 +32,7 @@ class StorageService():
     def storeAssetData(digital_asset,data):
     
         # Select random storage locations
-        storage_locations = StorageSelector.getStorageLocation_random(count=5)
+        storage_locations = StorageSelector.getStorageLocation_random(count=3)
         
         # Create Storage Manager objects
         storageManagers = []
