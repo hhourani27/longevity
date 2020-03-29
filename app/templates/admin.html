@@ -67,8 +67,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href={{ url_for('collection') }}>
+                <span class="menu-title">Collections</span>
+                <i class="mdi mdi-rhombus-split menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href={{ url_for('asset_info') }}>
-                <span class="menu-title">Asset</span>
+                <span class="menu-title">Assets</span>
                 <i class="mdi mdi-archive menu-icon"></i>
               </a>
             </li>
@@ -77,6 +83,18 @@
                 <span class="menu-title">Upload</span>
                 <i class="mdi mdi-cloud-upload menu-icon"></i>
               </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+                <span class="menu-title">Paramètres</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-settings menu-icon"></i>
+              </a>
+              <div class="collapse" id="general-pages">
+                <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="">Stratégie de stockage</a></li>
+                </ul>
+              </div>
             </li>
           </ul>
         </nav>

@@ -1,12 +1,47 @@
 {% extends "admin.html" %}
 
 {% block page_content %}
-    <div class="page-header">
-      <h3 class="page-title">
-        <span class="page-title-icon bg-gradient-primary text-white mr-2">
-          <i class="mdi mdi-home"></i>
-        </span> Tableau de bord </h3>
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Sélectionner une collection</h4>
+        <p class="card-description"> Consulter les informations de votre collection </p>
+        
+        <script>
+          function process()
+          {
+              var url = "{{ url_for('collection') }}" +"/"+ document.getElementById("collection").value;
+              console.log(url)
+              location.href = url;
+              return false;
+          }
+        </script>
+        <form class="form-inline" onSubmit="return process()"; novalidate>
+          <div class="form-group">
+            {{ collection_select_form.collection.label(class="sr-only") }}
+            {{ collection_select_form.collection(class="form-control mb-2 mr-sm-5") }}
+          </div>
+          {{ collection_select_form.submit(class="btn btn-gradient-primary mb-2") }}
+        </form>
+      </div>
     </div>
+  </div>
+  </div>
+  {% if collection is defined %}
+  {% if collection is none %}
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p>Aucune Collection n'existe avec l'ID <code>{{searched_id}}</code>. Veuillez refaire votre recherche
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if collection is not none %}
     <div class="row">
       <div class="col-md-4 stretch-card grid-margin">
         <div class="card bg-gradient-danger card-img-holder text-white">
@@ -14,7 +49,7 @@
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
             <h4 class="font-weight-normal mb-5">Total Assets <i class="mdi mdi-archive mdi-24px float-right"></i>
             </h4>
-            <h1 class="mb-3">{{total_asset_count}}</h1>
+            <h1 class="mb-3">{{asset_count}}</h1>
           </div>
         </div>
       </div>
@@ -22,9 +57,9 @@
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-5">Nombre de Collections <i class="mdi mdi-rhombus-split mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-5">Nombre de Data Centers <i class="mdi mdi-rhombus-split mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-3">{{total_collection_count}}</h2>
+            <h2 class="mb-3">{{storage_locations|length}}</h2>
           </div>
         </div>
       </div>
@@ -34,58 +69,64 @@
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
             <h4 class="font-weight-normal mb-5">Nombre d'Accès <i class="mdi mdi-eye mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-3">{{total_read_count}}</h2>
+            <h2 class="mb-3">{{read_count}}</h2>
           </div>
         </div>
       </div>
     </div>
   <div class="row">
-    <div class="col-12 grid-margin stretch-card">
+    <div class="col-7 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Collections</h4>
+        <h4 class="card-title">Fiche de la Collection</h4>
         <div class="table-responsive">
           <table class="table">
-            <thead>
-              <tr>
-                <th>
-                  Collection
-                </th>
-                <th>
-                  Nombre d'Assets
-                </th>
-                <th>
-                  Nombre d'accès
-                </th>
-              </tr>
-            </thead>
             <tbody>
-            {% for c in collections %}
-            <tr>
-              <td>
-                <a href="{{ url_for('collection') }}/{{c.id}}">{{c.name}}</a>
-              </td>
-              <td>
-                {{collection_asset_count[loop.index0]}}
-              </td>
-              <td>
-                {{collection_read_count[loop.index0]}}
-              </td>
-            </tr>
-            {% endfor %}
+              <tr>
+                <td class="text-muted">
+                  ID
+                </td>
+                <td>
+                  {{collection.id}}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-muted">
+                  Nom
+                </td>
+                <td>
+                  {{collection.name}}
+                </td>              
+              </tr>
+              <tr>
+                <td class="text-muted">
+                  Description
+                </td>
+                <td>
+                  {{collection.description}}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
+    <div class="col-5 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Documents les plus consultés</h4>
+        </div>
+      </div>
+    </div>  
   </div>
+
   <div class="row">
      <div class="col-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Localisation</h4>
-        <p class="card-description"> Liste des Data centers où sont stockés vos données </p>
+        <p class="card-description"> Liste des Data centers où est stockée cette collection </p>
         <div class="row">
           <div class="col-8 pr-1">
             <div id="mapid" style="max-width: 100%; height: 250px"></div>
@@ -136,6 +177,12 @@
   </div>
 </div>
 
+
+  {% endif %}
+  
+  {% endif %}
+
+
 {% endblock %}
 
 {% block script %}
@@ -156,4 +203,5 @@
       var marker{{loop.index0}} = new L.marker([{{sl.latitude}}, {{sl.longitude}}]).bindPopup("{{sl.name}}").addTo(mymap);
     {% endfor %}
   </script>
+
 {% endblock %}

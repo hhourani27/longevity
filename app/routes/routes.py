@@ -3,43 +3,12 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm
+from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm, CollectionGetForm
 from app.models.user import User,Organisation
-from app.models.asset import DigitalAsset, DigitalAssetHistory, Collection
+from app.models.asset import DigitalAsset, Collection
 from app.models.storage import AssetStorageHistory
 from app.services.asset import AssetService, CollectionService
 from app.services.storage import StorageService
-
-
-@app.route('/')
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    total_asset_count = AssetService.count()
-    total_collection_count = CollectionService.count()
-    total_read_count = StorageService.getReadCount()
-        
-    collections = CollectionService.get_all()
-    collection_asset_count = [AssetService.count(c) for c in collections]
-    collection_read_count = [StorageService.getReadCount(c) for c in collections]
-
-    storage_locations = StorageService.getStorageLocations()
-    storage_regions = list(set([sl.continent for sl in storage_locations]))
-    storage_regions.sort()
-    storage_providers = list(set([sl.data_provider for sl in storage_locations]))
-    storage_providers.sort(key = lambda p: p.name)
-    
-    return render_template('dashboard.html', title='Home', 
-        total_asset_count=total_asset_count, 
-        total_collection_count=total_collection_count, 
-        total_read_count = total_read_count,
-        collections = collections,
-        collection_asset_count = collection_asset_count,
-        collection_read_count = collection_read_count,
-        storage_locations=storage_locations,
-        storage_regions = storage_regions,
-        storage_providers = storage_providers
-        )
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -65,6 +34,78 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
+@app.route('/')
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    total_asset_count = AssetService.count()
+    total_collection_count = CollectionService.count()
+    total_read_count = StorageService.getDataReadCount()
+        
+    collections = CollectionService.get_all()
+    collection_asset_count = [AssetService.count(c) for c in collections]
+    collection_read_count = [StorageService.getDataReadCount(c) for c in collections]
+
+    storage_locations = StorageService.getStorageLocations(used_only = True)
+    storage_regions = StorageService.getStorageRegions(used_only = True)
+    storage_providers = StorageService.getDataProviders(used_only = True)
+    
+    return render_template('dashboard.html', title='Home', 
+        total_asset_count=total_asset_count, 
+        total_collection_count=total_collection_count, 
+        total_read_count = total_read_count,
+        collections = collections,
+        collection_asset_count = collection_asset_count,
+        collection_read_count = collection_read_count,
+        storage_locations=storage_locations,
+        storage_regions = storage_regions,
+        storage_providers = storage_providers
+        )
+
+@app.route('/collection', defaults={'id': None}, methods=['GET'])
+@app.route('/collection/<id>', methods=['GET'])
+@login_required
+def collection(id) :
+    collections = CollectionService.get_all()
+    collections_to_select = [(col.id,col.name) for col in collections]
+    
+    collection_select_form = CollectionGetForm(collections_to_select)
+    
+    if id is not None :
+        # Get collection
+        collection = Collection.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
+        
+        # If no collection of this id exists in this organisation
+        if collection is None :
+            return render_template('collection.html', title='Collection', collection_select_form=collection_select_form, collection=collection, searched_id=id)
+            
+        # Get collection statistics
+        asset_count = AssetService.count(collection)
+        
+        storage_locations = StorageService.getStorageLocations(collection=collection, used_only = True)
+        storage_regions = StorageService.getStorageRegions(collection=collection, used_only = True)
+        storage_providers = StorageService.getDataProviders(collection=collection, used_only = True)
+        
+        read_count = StorageService.getDataReadCount(collection)
+        
+        # Recreate collection select form with default value
+        collection_select_form = CollectionGetForm(collections_to_select, default=id)
+    
+        return render_template('collection.html', title='Collection',
+                collection = collection,
+                collection_select_form=collection_select_form,
+                asset_count = asset_count,
+                read_count = read_count,
+                storage_locations = storage_locations,
+                storage_regions = storage_regions,
+                storage_providers = storage_providers
+                )
+    
+    else :
+        return render_template('collection.html', title='Collection', collection_select_form=collection_select_form)
+    
+    
 
 @app.route('/asset', defaults={'id': None}, methods=['GET'])
 @app.route('/asset/<id>', methods=['GET'])

@@ -28,6 +28,7 @@ class StorageSelector :
         return selected_storage_locations
 
 class StorageService():
+    @staticmethod
     def storeAssetData(digital_asset,data):
     
         # Select random storage locations
@@ -45,6 +46,7 @@ class StorageService():
         # Return the storage locations
         return storage_locations
 
+    @staticmethod
     def getAssetData(digital_asset):
         # Get the first storage location where the asset is stored
         asset_storage = DigitalAssetStorage.query.filter_by(asset_id=digital_asset.id).first()
@@ -64,14 +66,36 @@ class StorageService():
         db.session.commit()
         
         return data
-        
-    def getStorageLocations():
+
+    @staticmethod        
+    def getStorageLocations(collection = None, used_only=False):
         query = db.session().query(DataStorageLocation).join(DigitalAssetStorage).join(DigitalAsset).filter(DigitalAsset.organisation_id==current_user.organisation_id)
+        
+        if collection is not None : 
+           query = query.filter(DigitalAsset.collection_id == collection.id)     
+        
         storage_locations = query.all()
         
         return storage_locations
+
+    @staticmethod        
+    def getStorageRegions(collection = None, used_only=False):
+        storage_locations = StorageService.getStorageLocations(collection=collection, used_only=used_only)
+        storage_regions = list(set([sl.continent for sl in storage_locations]))
+        storage_regions.sort()
         
-    def getReadCount(collection = None):
+        return storage_regions
+        
+    @staticmethod        
+    def getDataProviders(collection = None, used_only=False):
+        storage_locations = StorageService.getStorageLocations(collection=collection, used_only=used_only)
+        storage_providers = list(set([sl.data_provider for sl in storage_locations]))
+        storage_providers.sort(key = lambda p: p.name)
+        
+        return storage_providers
+
+    @staticmethod        
+    def getDataReadCount(collection = None):
         query = (
             db.session.query(AssetStorageHistory)
             .join(DigitalAsset).
