@@ -22,6 +22,11 @@ VALUES
 	(1,'Manuscripts de Caedmon','Collection contenant les Manuscripts de Caedmon', 1),
 	(2,'Apocalypse flamande','Collection contenant Apocalypse flamande', 1);
 
+INSERT INTO format(id,type,subtype)
+VALUES
+	(1,'image','jpeg'),
+	(2,'image','png');
+
 INSERT INTO storage_data_provider(id,name)
 VALUES
 	(1,'Amazon'),

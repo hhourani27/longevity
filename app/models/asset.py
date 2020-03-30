@@ -17,7 +17,7 @@ class DigitalAsset(db.Model):
     collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False)
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisation.id'), nullable=False)
     name = db.Column(db.String(1024), index=True, nullable=False)
-    type = db.Column(db.String(1024), index=True, nullable=False)
+    format_id = db.Column(db.Integer, db.ForeignKey('format.id'), nullable=False)
     filename = db.Column(db.String(1024))
 
     def __repr__(self):

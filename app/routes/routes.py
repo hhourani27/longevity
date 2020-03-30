@@ -164,9 +164,12 @@ def upload():
     collections_to_select = [(col.id,col.name) for col in collections]
     form.collection.choices = collections_to_select
     
+    print('ICI1')
+    
     if form.validate_on_submit():
+        print('ICI2')
         filename = secure_filename(form.file.data.filename)
-        digital_asset = DigitalAsset(name=form.name.data, type=form.type.data, filename=filename, organisation_id=current_user.organisation_id, collection_id=form.collection.data)
+        digital_asset = DigitalAsset(name=form.name.data, format_id=form.format.data, filename=filename, organisation_id=current_user.organisation_id, collection_id=form.collection.data)
 
         # Get file data and save it to byte array
         data = form.file.data.read()

@@ -47,7 +47,7 @@
         <div class="card bg-gradient-danger card-img-holder text-white">
           <div class="card-body">
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-5">Total Assets <i class="mdi mdi-archive mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-5">Nombre de documents <i class="mdi mdi-archive mdi-24px float-right"></i>
             </h4>
             <h1 class="mb-3">{{asset_count}}</h1>
           </div>
@@ -57,9 +57,9 @@
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-5">Nombre de Data Centers <i class="mdi mdi-rhombus-split mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-5">Nombre d'Accès <i class="mdi mdi-eye mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-3">{{storage_locations|length}}</h2>
+            <h2 class="mb-3">{{read_count}}</h2>
           </div>
         </div>
       </div>
@@ -67,9 +67,9 @@
         <div class="card bg-gradient-success card-img-holder text-white">
           <div class="card-body">
             <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-5">Nombre d'Accès <i class="mdi mdi-eye mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-5">Score de Pérénnité <i class="mdi mdi-emoticon-neutral mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-3">{{read_count}}</h2>
+            <h2 class="mb-3 text-warning">14 / 20</h2>
           </div>
         </div>
       </div>
@@ -120,6 +120,17 @@
       </div>
     </div>  
   </div>
+
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Analyse de pérénnité</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="row">
      <div class="col-12 grid-margin stretch-card">
