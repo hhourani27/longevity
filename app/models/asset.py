@@ -4,8 +4,8 @@ from app.models.user import Organisation
 class Collection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisation.id'), nullable=False)
-    name = db.Column(db.String(1024), index=True, nullable=False)
-    description = db.Column(db.String(1024), index=True, nullable=False)
+    name = db.Column(db.String(1024), nullable=False)
+    description = db.Column(db.String(1024), nullable=False)
     
     assets = db.relationship('DigitalAsset', backref='collection', lazy='dynamic')
 
@@ -16,7 +16,7 @@ class DigitalAsset(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False)
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisation.id'), nullable=False)
-    name = db.Column(db.String(1024), index=True, nullable=False)
+    name = db.Column(db.String(1024), nullable=False)
     format_id = db.Column(db.Integer, db.ForeignKey('format.id'), nullable=False)
     filename = db.Column(db.String(1024))
 

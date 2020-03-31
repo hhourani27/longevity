@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, SelectField
 from wtforms.validators import DataRequired
-from app.services.format import FormatService
 
 class LoginForm(FlaskForm) :
     username = StringField('Username', validators=[DataRequired()])
@@ -13,7 +12,7 @@ class LoginForm(FlaskForm) :
 class AssetUploadForm(FlaskForm) :
     collection = SelectField('Collection', choices=[], coerce=int, validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
-    format = SelectField('Format', choices = [(f.id,f.display_name()) for f in FormatService.get_all()], coerce=int, validators=[DataRequired()])
+    format = SelectField('Format', choices=[], coerce=int, validators=[DataRequired()])
     file = FileField(validators=[FileRequired()])
     submit = SubmitField('Submit')
     

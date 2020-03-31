@@ -1,12 +1,31 @@
 from app import db
 from app.models.asset import DigitalAsset, Collection
 
+class Country(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), index=True, unique=True, nullable=False)
+    region = db.Column(db.String(120), nullable=False)
+    
+    ind_fragile_state_index = db.Column(db.String(10))
+    ind_ict_dev_index = db.Column(db.String(10))
+    ind_hdi = db.Column(db.String(10))
+    
+    assets = db.relationship('DataStorageLocation', backref='country', lazy='dynamic')
+    
 # Represent a Data Provider (Google, Amazon, Microsoft...)
 class DataProvider(db.Model):
     __tablename__ = 'storage_data_provider'
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True, unique=True, nullable=False)
+    
+    ind_current_ratio = db.Column(db.String(10))
+    ind_quick_ratio = db.Column(db.String(10))
+    ind_return_on_assets = db.Column(db.String(10))
+    ind_accounts_receivable_turnover_ratio = db.Column(db.String(10))
+    ind_operating_cash_flow_ratio = db.Column(db.String(10))
+    ind_pretax_net_profit_margin = db.Column(db.String(10))
+    ind_inventory_turnover = db.Column(db.String(10))
     
     data_storage_locations = db.relationship('DataStorageLocation', backref='data_provider', lazy='dynamic')
 
@@ -20,9 +39,8 @@ class DataStorageLocation(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     data_provider_id = db.Column(db.Integer, db.ForeignKey('storage_data_provider.id'), nullable=False)
-    name = db.Column(db.String(120), index=True, nullable=False)
-    continent = db.Column(db.String(120), index=True, nullable=False)
-    country = db.Column(db.String(120), index=True, nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False)
     longitude = db.Column(db.String(10))
     latitude = db.Column(db.String(10))
 

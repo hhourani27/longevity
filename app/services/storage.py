@@ -92,7 +92,7 @@ class StorageService():
     @staticmethod        
     def getStorageRegions(collection = None, used_only=False):
         storage_locations = StorageService.getStorageLocations(collection=collection, used_only=used_only)
-        storage_regions = list(set([sl.continent for sl in storage_locations]))
+        storage_regions = list(set([sl.country.region for sl in storage_locations]))
         storage_regions.sort()
         
         return storage_regions

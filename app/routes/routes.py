@@ -7,9 +7,10 @@ from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm, Collection
 from app.models.user import User,Organisation
 from app.models.asset import DigitalAsset, Collection
 from app.models.storage import AssetStorageHistory
+from app.models.format import Format
 from app.services.asset import AssetService, CollectionService
 from app.services.storage import StorageService
-
+from app.services.format import FormatService
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -159,15 +160,11 @@ def asset_data(id):
 def upload():
     form = AssetUploadForm()
     
-    # Populate collection combo box with the collections of this organisation
-    collections = CollectionService.get_all()
-    collections_to_select = [(col.id,col.name) for col in collections]
-    form.collection.choices = collections_to_select
-    
-    print('ICI1')
+    # Populate combo boxes
+    form.collection.choices = [(col.id,col.name) for col in CollectionService.get_all()]
+    form.format.choices = [(f.id,f.name) for f in FormatService.get_all()]
     
     if form.validate_on_submit():
-        print('ICI2')
         filename = secure_filename(form.file.data.filename)
         digital_asset = DigitalAsset(name=form.name.data, format_id=form.format.data, filename=filename, organisation_id=current_user.organisation_id, collection_id=form.collection.data)
 

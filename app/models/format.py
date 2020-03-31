@@ -3,13 +3,12 @@ from app.models.asset import DigitalAsset
 
 class Format(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(50), index=True, nullable=False)
-    subtype = db.Column(db.String(50), index=True, nullable=False)
+    media = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    version = db.Column(db.String(50))
     
     assets = db.relationship('DigitalAsset', backref='format', lazy='dynamic')
 
-    def display_name(self):
-        return "{}/{}".format(self.type,self.subtype)
-
     def __repr__(self):
-        return '<Format : {}/{}>'.format(self.type,self.subtype)
+        return '<Format : {}>'.format(self.name)
+        

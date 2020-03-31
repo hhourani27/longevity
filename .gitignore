@@ -39,4 +39,5 @@ venv
 app.db
 longevity.log*
 data/storage
-data/images
+data/assets
+~$*
