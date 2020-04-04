@@ -6,7 +6,7 @@ from app import app, db
 from app.forms.forms import LoginForm, AssetUploadForm, AssetGetForm, CollectionGetForm
 from app.models.user import User,Organisation
 from app.models.asset import DigitalAsset, Collection
-from app.models.storage import AssetStorageHistory
+from app.models.storage import AssetStorageHistory, DataStorageLocation
 from app.models.format import Format
 from app.services.asset import AssetService, CollectionService
 from app.services.storage import StorageService
@@ -179,4 +179,10 @@ def upload():
 
     
     return render_template('upload.html', title='Upload asset', form=form)
+
+@app.route('/doc/storage/<id>', methods=['GET'])
+@login_required
+def doc_storage(id):
+    storage_location = DataStorageLocation.query.get(id)
     
+    return render_template('doc_storage.html', title='Storage', storage_location=storage_location)

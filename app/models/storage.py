@@ -18,6 +18,7 @@ class DataProvider(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True, unique=True, nullable=False)
+    description = db.Column(db.String(1024))
     
     ind_current_ratio = db.Column(db.String(10))
     ind_quick_ratio = db.Column(db.String(10))

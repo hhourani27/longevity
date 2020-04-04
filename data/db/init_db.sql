@@ -55,11 +55,11 @@ VALUES
 	(24,'Taïwan','Asie-Pacifique','61.1','7.8','0.923');
 
 
-INSERT INTO storage_data_provider(id,name,ind_current_ratio,ind_quick_ratio,ind_return_on_assets,ind_accounts_receivable_turnover_ratio,ind_operating_cash_flow_ratio,ind_pretax_net_profit_margin,ind_inventory_turnover)
+INSERT INTO storage_data_provider(id,name,ind_current_ratio,ind_quick_ratio,ind_return_on_assets,ind_accounts_receivable_turnover_ratio,ind_operating_cash_flow_ratio,ind_pretax_net_profit_margin,ind_inventory_turnover,description)
 VALUES
-	(1,'Amazon','3.27','5.97','0.8','0.46','0.57','0.95','57.7'),
-	(2,'Google','3.35','3.37','0.14','0.14','0.04','0.21','68.28'),
-	(3,'Microsoft','2.53','5.39','0.98','0.37','0.03','0.56','44.68');
+	(1,'Amazon','3.27','5.97','0.8','0.46','0.57','0.95','57.7',"(NASDAQ : AMZN4) est une entreprise de commerce électronique américaine basée à Seattle. Elle est un des géants du Web, regroupés sous l'acronyme GAFAM5, aux côtés de Google, Apple, Facebook et Microsoft."),
+	(2,'Google','3.35','3.37','0.14','0.14','0.04','0.21','68.28',"est une entreprise américaine de services technologiques fondée en 1998 dans la Silicon Valley, en Californie, par Larry Page et Sergey Brin, créateurs du moteur de recherche Google."),
+	(3,'Microsoft','2.53','5.39','0.98','0.37','0.03','0.56','44.68',"est une multinationale informatique et micro-informatique américaine, fondée en 1975 par Bill Gates et Paul Allen. Microsoft est la première capitalisation boursière du NASDAQ. En 2018, le chiffre d'affaires s’élevait à 110,36 milliards de dollars.");
 
 	
 INSERT INTO storage_data_location(id,data_provider_id,name,country_id,longitude,latitude)
@@ -165,5 +165,5 @@ VALUES
 
 INSERT INTO storage_strategy(id,collection_id,strategy)
 VALUES
-	(1,1,'{"strategy":{"level":1,"redundancy":{"provider":2,"location":2},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":13,"region":"","country":"","provider":{"id":1,"name":""}},{"id":16,"region":"","country":"","provider":{"id":1,"name":""}},{"id":27,"region":"","country":"","provider":{"id":1,"name":""}}]}}'),
-	(2,2,'{"strategy":{"level":1,"redundancy":{"provider":2,"location":2},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":13,"region":"","country":"","provider":{"id":1,"name":""}},{"id":16,"region":"","country":"","provider":{"id":1,"name":""}},{"id":27,"region":"","country":"","provider":{"id":1,"name":""}}]}}')
+	(1,1,'{"strategy":{"level":1,"redundancy":{"provider":0,"location":0},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":16,"region":"","country":"","provider":{"id":1,"name":""}},{"id":27,"region":"","country":"","provider":{"id":2,"name":""}},{"id":86,"region":"","country":"","provider":{"id":3,"name":""}}]}}'),
+	(2,2,'{"strategy":{"level":1,"redundancy":{"provider":0,"location":0},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":17,"region":"","country":"","provider":{"id":1,"name":""}},{"id":66,"region":"","country":"","provider":{"id":3,"name":""}}]}}')

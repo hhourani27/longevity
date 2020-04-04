@@ -209,7 +209,8 @@
 	}).addTo(mymap);
     
     {% for sl in storage_locations %}
-      var marker{{loop.index0}} = new L.marker([{{sl.latitude}}, {{sl.longitude}}]).bindPopup("{{sl.name}}").addTo(mymap);
+      var marker{{loop.index0}} = createMarker({{sl.latitude}}, {{sl.longitude}},"{{sl.name}}","{{url_for('doc_storage', id=sl.id)}}")
+      marker{{loop.index0}}.addTo(mymap);
     {% endfor %}
   </script>
 {% endblock %}
