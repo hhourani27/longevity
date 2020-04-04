@@ -26,6 +26,94 @@
 	</div>
   </div>
 </div>
+<div class="row">
+    <div class="col-4 grid-margin stretch-card">
+	  <div class="card">
+	    <div class="card-body">
+		  <h4 class="card-title">Durabilité : Data Center</h4>
+			<div class="table-responsive table-body">
+			  <table class="table">
+			    <tbody>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>Current Ratio</td>
+					<td class="font-weight-bold">{{storage_location.data_provider.ind_current_ratio}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>Quick ratio</td>
+					<td class="font-weight-bold">{{storage_location.data_provider.ind_quick_ratio}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon-neutral mdi-12px text-warning"></i></td>
+					<td>Return on assets</td>
+					<td class="font-weight-bold">{{storage_location.data_provider.ind_return_on_assets}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>ARTR</td>
+					<td class="font-weight-bold">{{storage_location.data_provider.ind_accounts_receivable_turnover_ratio}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon-sad mdi-12px text-danger"></i></td>
+					<td>Op Cash-Flow Ratio</td>
+					<td class="font-weight-bold">{{storage_location.data_provider.ind_operating_cash_flow_ratio}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>Pretax Net Profit Margin</td>
+					<td class="font-weight-bold">{{storage_location.data_provider.ind_pretax_net_profit_margin}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>Inventory Turnover</td>
+					<td class="font-weight-bold">{{storage_location.data_provider.ind_inventory_turnover}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+			</div>
+		</div>
+	  </div>
+	</div>
+    <div class="col-4 grid-margin stretch-card">
+	  <div class="card">
+	    <div class="card-body">
+		  <h4 class="card-title">Durabilité : Emplacement</h4>
+		    <div class="table-responsive table-body">
+			  <table class="table">
+			    <tbody>
+				</tbody>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>Fragile State Index</td>
+					<td class="font-weight-bold">{{storage_location.country.ind_fragile_state_index}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>ICT Dev Index</td>
+					<td class="font-weight-bold">{{storage_location.country.ind_ict_dev_index}}</td>
+				  </tr>
+				  <tr>
+					<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+					<td>HDI</td>
+					<td class="font-weight-bold">{{storage_location.country.ind_hdi}}</td>
+				  </tr>
+			  </table>
+			</div>
+		</div>
+	  </div>
+	</div>
+    <div class="col-4 grid-margin stretch-card">
+	  <div class="card bg-gradient-success card-img-holder text-white">
+	    <div class="card-body">
+		  <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
+		    <h4 class="font-weight-normal mb-5">Durabilité : Score <i class="mdi mdi-emoticon mdi-24px float-right"></i>
+            </h4>
+			<h1 class="mb-3 display1">85%</h1>
+		</div>
+	  </div>
+	</div>
+</div>
 
 {% endblock %}
 
