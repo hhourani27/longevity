@@ -1,0 +1,415 @@
+{% extends "admin.html" %}
+
+{% block page_content %}
+<div class="row">
+  <div class="col-9 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	  <p>
+	  <span class="font-weight-bold">PDF/A-3</span> is an ISO-standardized version of the Portable Document Format (PDF) specialized for use in the archiving and long-term preservation of electronic documents. PDF/A differs from PDF by prohibiting features unsuitable for long-term archiving, such as font linking (as opposed to font embedding) and encryption. The ISO requirements for PDF/A file viewers include color management guidelines, support for embedded fonts, and a user interface for reading embedded annotations.
+	  </p>
+	  <p>
+	  <span class="font-weight-bold">The Portable Document Format (PDF)</span> (redundantly: PDF format) is a file format developed by Adobe in the 1990s to present documents, including text formatting and images, in a manner independent of application software, hardware, and operating systems. Based on the PostScript language, each PDF file encapsulates a complete description of a fixed-layout flat document, including the text, fonts, vector graphics, raster images and other information needed to display it. PDF was standardized as ISO 32000 in 2008, and no longer requires any royalties for its implementation.
+	  </p>
+	  </div>
+	</div>
+  </div>
+  <div class="col-3 grid-margin stretch-card">
+    <div class="card">
+	  <div class="card-body">
+		<img src="{{ url_for('static',filename='images/formats/PDF.svg') }}" class="mw-100 w-100 rounded">
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-8 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h2 class="card-title">Sustainability factors</h2>
+		  <p class="card-description">
+			We list here the factors to assess the suitability of this format for long term preservation
+		  </p>
+	  </div>
+	</div>
+  </div>
+  <div class="col-4 grid-margin stretch-card">
+	  <div class="card bg-gradient-success card-img-holder text-white">
+	    <div class="card-body">
+		  <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
+		    <h4 class="font-weight-normal mb-5">Durabilité : Score <i class="mdi mdi-emoticon mdi-24px float-right"></i>
+            </h4>
+			<h1 class="mb-3 display1">85%</h1>
+		</div>
+	  </div>
+	</div>
+
+</div>
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Disclosure</h4>
+		  <p class="card-description">
+			Disclosure refers to the degree to which complete specifications and tools for validating technical integrity exist and are accessible to those creating and sustaining digital content. Preservation of content in a given digital format over the long term is not feasible without an understanding of how the information is represented (encoded) as bits and bytes in digital files.
+		  </p>
+		  <div class="row">
+		  <table class="table">
+		    <thead>
+			  <th>Principle</th>
+			  <th>Assessment</th>
+			  <th>Details</th>
+			</thead>
+		    <tbody>
+			  <tr>
+				<td>Open Format</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Recognized by a standard body</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>OpenStand Principles : Cooperation</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>OpenStand Principles : Due Process</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>OpenStand Principles : Broad consensus</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>OpenStand Principles : Transparency</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>OpenStand Principles : Balance</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>OpenStand Principles : Openness</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Collective Empowerment</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Availability</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Voluntary Adoption</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  </div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Adoption</h4>
+		  <p class="card-description">
+			Adoption refers to the degree to which the format is already used by the primary creators, disseminators, or users of information resources. This includes use as a master format, for delivery to end users, and as a means of interchange between systems. If a format is widely adopted, it is less likely to become obsolete rapidly, and tools for migration and emulation are more likely to emerge from industry without specific investment by archival institutions.
+		  </p>
+		  <div class="row">
+		  <table class="table">
+		    <thead>
+			  <th>Principle</th>
+			  <th>Assessment</th>
+			  <th>Details</th>
+			</thead>
+		    <tbody>
+			  <tr>
+				<td>Native Web Support</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Bundling of tools with personal computers</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Availability of a Master Format</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Availability of open source viewer tools</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Availability of open source editor tools</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Availability of proprietary viewer tools</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Availability of proprietary editor tools</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Recommended by Archival Institutions</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  </div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Transparency</h4>
+		  <p class="card-description">Transparency refers to the degree to which the digital representation is open to direct analysis with basic tools, including human readability using a text-only editor. Digital formats in which the underlying information is represented simply and directly will be easier to migrate to new formats and more susceptible to digital archaeology; development of rendering software for new technical environments or conversion software based on the "universal virtual computer" concept proposed by Raymond Lorie will be simpler.
+		  </p>
+		  <div class="row">
+		  <table class="table">
+		    <thead>
+			  <th>Principle</th>
+			  <th>Assessment</th>
+			  <th>Details</th>
+			</thead>
+		    <tbody>
+			  <tr>
+				<td>Human-readable format using a text editor</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Textual content encoded in UTF-8</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Textual content stored in natural reading order</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Compiled code vs Source code</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Basic vs Optimised representation</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Lossless compression</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Encryption</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  </div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Self-documentation</h4>
+		  <p class="card-description">Digital objects that are self-documenting are likely to be easier to sustain over the long term and less vulnerable to catastrophe than data objects that are stored separately from all the metadata needed to render the data as usable information or understand its context. A digital object that contains basic descriptive metadata (the analog to the title page of a book) and incorporates technical and administrative metadata relating to its creation and early stages of its life cycle will be easier to manage and monitor for integrity and usability and to transfer reliably from one archival system to its successor system. Such metadata will also allow scholars of the future to understand how what they observe relates to the object as seen and used in its original technical environment. The ability of a digital format to hold (in a transparent form) metadata beyond that needed for basic rendering of the content in today's technical environment is an advantage for purposes of preservation.
+		  </p>
+		  <div class="row">
+		  <table class="table">
+		    <thead>
+			  <th>Principle</th>
+			  <th>Assessment</th>
+			  <th>Details</th>
+			</thead>
+		    <tbody>
+			  <tr>
+				<td>Integrated vs Separated Metadata</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Presence of OAIS Representation Metadata</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Presence of OAIS Reference Metadata</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Presence of OAIS Context Metadata</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Presence of OAIS Fixity Metadata</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Presence of OAIS Provenance Metadata</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Metadata recorded in Standard format</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  </div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">External dependencies</h4>
+		  <p class="card-description">External dependencies refers to the degree to which a particular format depends on particular hardware, operating system, or software for rendering or use and the predicted complexity of dealing with those dependencies in future technical environments. Some forms of interactive digital content, although not tied to particular physical media, are designed for use with specific hardware, such as a microphone or a joystick. Scientific datasets built from sensor data may be useless without specialized software for analysis and visualization, software that may itself be very difficult to sustain, even with source code available.
+		  </p>
+		  <div class="row">
+		  <table class="table">
+		    <thead>
+			  <th>Principle</th>
+			  <th>Assessment</th>
+			  <th>Details</th>
+			</thead>
+		    <tbody>
+			  <tr>
+				<td>Dependance on a particular Hardware</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Dependance on a particular Operating System</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Dependance on a particular Software</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Presence of Interactive Digital content</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  </div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Impact of patents</h4>
+		  <p class="card-description">Patents related to a digital format may inhibit the ability of archival institutions to sustain content in that format. Although the costs for licenses to decode current formats are often low or nil, the existence of patents may slow the development of open source encoders and decoders and prices for commercial software for transcoding content in obsolescent formats may incorporate high license fees. When license terms include royalties based on use (e.g., a royalty fee when a file is encoded or each time it is used), costs could be high and unpredictable. It is not the existence of patents that is a potential problem, but the terms that patent-holders might choose to apply.
+		  </p>
+		  <div class="row">
+		  <table class="table">
+		    <thead>
+			  <th>Principle</th>
+			  <th>Assessment</th>
+			  <th>Details</th>
+			</thead>
+		    <tbody>
+			  <tr>
+				<td>Existence of Patents</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Liscencing Fees</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  </div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Technical protection mechanisms</h4>
+		  <p class="card-description">To preserve digital content and provide service to users and designated communities decades hence, custodians must be able to replicate the content on new media, migrate and normalize it in the face of changing technology, and disseminate it to users at a resolution consistent with network bandwidth constraints. Content for which a trusted repository takes long-term responsibility must not be protected by technical mechanisms such as encryption, implemented in ways that prevent custodians from taking appropriate steps to preserve the digital content and make it accessible to future generations.
+		  </p>
+		  <div class="row">
+		  <table class="table">
+		    <thead>
+			  <th>Principle</th>
+			  <th>Assessment</th>
+			  <th>Details</th>
+			</thead>
+		    <tbody>
+			  <tr>
+				<td>Encryption</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Dependance on a particular Carrier</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			  <tr>
+				<td>Embedded Use Restrictions</td>
+				<td><i class="mdi mdi-emoticon mdi-12px text-success"></i></td>
+				<td>Details...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  </div>
+	  </div>
+	</div>
+  </div>
+</div>
+
+{% endblock %}

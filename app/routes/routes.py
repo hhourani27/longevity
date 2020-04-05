@@ -186,3 +186,8 @@ def doc_storage(id):
     storage_location = DataStorageLocation.query.get(id)
     
     return render_template('doc_storage.html', title='Storage', storage_location=storage_location)
+
+@app.route('/doc/format', methods=['GET'])
+@login_required
+def doc_format():
+    return render_template('doc_format.html', title='Format')

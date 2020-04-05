@@ -1,0 +1,7 @@
+.long-cell-text {
+	white-space: normal !important;
+}
+
+.test {
+  table-layout: fixed;
+}
