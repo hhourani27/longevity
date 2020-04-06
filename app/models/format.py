@@ -11,4 +11,7 @@ class Format(db.Model):
 
     def __repr__(self):
         return '<Format : {}>'.format(self.name)
+    
+    def display_name(self):
+        return '{}/{}'.format(self.media,self.name)
         

@@ -79,7 +79,7 @@
                   Format
                 </td>
                 <td>
-                  {{asset.format.name}}
+                  {{asset.format.display_name()}}
                 </td>
               </tr>
               <tr>
@@ -100,7 +100,11 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Aperçu</h4>
+            {% if asset.format.media == 'image' %}
             <img src="{{asset.id}}/data" class="mw-100 w-100 rounded">
+            {% elif asset.format.media == 'audio' %}
+            <img id="audio-player" src="{{ url_for('static',filename='images/play-button.png') }}" width="150" class="center img-link" onclick="playAudio()"></i>
+            {% endif %}
         </div>
       </div>
     </div>  
@@ -195,6 +199,8 @@
 {% endblock %}
 
 {% block script %}
+{% if asset is defined %}
+{% if asset is not none %}
     <script type="text/javascript">
       var mymap = L.map('mapid').setView([20, 0], 1);
       
@@ -212,5 +218,29 @@
       var marker{{loop.index0}} = createMarker({{sl.latitude}}, {{sl.longitude}},"{{sl.name}}","{{url_for('doc_storage', id=sl.id)}}")
       marker{{loop.index0}}.addTo(mymap);
     {% endfor %}
+    
+    var sound = new Howl({
+        src: ['{{asset.id}}/data'],
+        format : ['{{asset.format.name}}']
+      });
+    
+    function playAudio() {
+      $('#audio-player').attr("src", "{{ url_for('static',filename='images/pause-button.png') }}");
+      $('#audio-player').attr("onclick", "pauseAudio()");
+    
+      sound.play();
+    }
+    
+    function pauseAudio() {
+      $('#audio-player').attr("src", "{{ url_for('static',filename='images/play-button.png') }}");
+      $('#audio-player').attr("onclick", "playAudio()");
+          
+      sound.pause();
+    }
+
+
+    
   </script>
+{% endif %}
+{% endif %}
 {% endblock %}

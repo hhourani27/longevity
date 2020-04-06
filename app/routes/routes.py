@@ -147,10 +147,11 @@ def asset_info(id):
 @login_required
 def asset_data(id):
     asset = AssetService.get(id)
+    mime_type = '{}/{}'.format(asset.format.media,asset.format.name)
     data = StorageService.getAssetData(asset)
     
     response = make_response(data)
-    response.headers.set('Content-Type', 'image/jpg')
+    response.headers.set('Content-Type', mime_type)
     response.headers.set('Content-Disposition', 'attachment', filename=asset.filename)
     return response
 
@@ -162,7 +163,7 @@ def upload():
     
     # Populate combo boxes
     form.collection.choices = [(col.id,col.name) for col in CollectionService.get_all()]
-    form.format.choices = [(f.id,f.name) for f in FormatService.get_all()]
+    form.format.choices = [(f.id,f.display_name()) for f in FormatService.get_all()]
     
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)

@@ -14,7 +14,7 @@ DELETE FROM format;
 
 INSERT INTO organisation(id,name)
 VALUES
-	(1,'Institut de la Préservation digitale');
+	(1,'Institut Bergerac');
 
 INSERT INTO user (id,username,email,first_name,last_name,password_hash,organisation_id)
 VALUES
@@ -25,7 +25,8 @@ INSERT INTO format(id,media,name,version)
 VALUES
 	(1,'image','jpeg',''),
 	(2,'image','png',''),
-	(3,'text','pdf','A-3');
+	(3,'text','pdf','A-3'),
+	(4,'audio','ogg','');
 
 INSERT INTO country(id,name,region,ind_fragile_state_index,ind_ict_dev_index,ind_hdi)
 VALUES

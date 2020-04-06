@@ -2,6 +2,11 @@
 	white-space: normal !important;
 }
 
-.test {
-  table-layout: fixed;
+img.center {
+    display: block;
+    margin: 0 auto;
+}
+
+img.img-link {
+	cursor: pointer;
 }

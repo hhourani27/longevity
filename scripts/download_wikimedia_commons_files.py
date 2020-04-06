@@ -2,12 +2,13 @@ from pathlib import Path
 import shutil
 import mwclient
 
-DIR = 'C:/Users/HabibElHourani/Desktop/tools/test2/longevity/data/images'
+DIR = 'C:/Users/HabibElHourani/Desktop/tools/test2/longevity/data/assets'
 
 site = mwclient.Site('commons.wikimedia.org')
 
 categories = [
-    'Apocalypse flamande - BNF Néerl3'
+    'Audio files of music of Germany',
+    'Music magazines of Germany'
     ]
 
 for category_name in categories : 
@@ -18,8 +19,8 @@ for category_name in categories :
         
     category_path.mkdir()
     
-    images = category.members(namespace=6)
-    for img in images:
-        file_name = img.page_title
+    files = category.members(namespace=6)
+    for file in files:
+        file_name = file.page_title
         file_path = category_path.joinpath(file_name)
-        file_path.write_bytes(img.download())
+        file_path.write_bytes(file.download())
