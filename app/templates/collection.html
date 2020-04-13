@@ -125,7 +125,18 @@
     <div class="col-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Analyse de pérénnité</h4>
+          <h4 class="card-title">Pérennité des Formats</h4>
+          <div class="row">
+            <div class="col-4">
+              <canvas id="formatDistributionChart" width="100" height="100"></canvas>
+            </div>
+            <div class="col-4">
+              <canvas id="formatPerennityChart" width="100" height="100"></canvas>
+            </div>
+            <div class="col-4">
+              <canvas id="formatValidationChart" width="100" height="100"></canvas>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -136,13 +147,13 @@
      <div class="col-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Localisation</h4>
+        <h4 class="card-title">Pérennité du Stockage</h4>
         <p class="card-description"> Liste des Data centers où est stockée cette collection </p>
         <div class="row">
-          <div class="col-8 pr-1">
+          <div class="col-6 pr-1">
             <div id="mapid" style="max-width: 100%; height: 250px"></div>
           </div>
-          <div class="col-2 pl-10">
+          <div class="col-6 pl-10">
           <table class="table">
             <thead>
               <tr>
@@ -214,6 +225,110 @@
       var marker{{loop.index0}} = createMarker({{sl.latitude}}, {{sl.longitude}},"{{sl.name}}","{{url_for('doc_storage', id=sl.id)}}")
       marker{{loop.index0}}.addTo(mymap);
     {% endfor %}
+    
+    
+    // Chart : Format distribution
+var ctx = document.getElementById('formatDistributionChart').getContext('2d');
+var formatDistributionChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['jpeg', 'png', 'pdf', 'ogg'],
+        datasets: [{
+            label: 'Format distribution',
+            data: [12, 19, 3, 5],
+            backgroundColor: [
+                'rgba(172, 0, 0, 0.7)',
+                'rgba(255, 80, 80, 0.7)',
+                'rgba(255, 228, 0, 0.7)',
+                'rgba(17, 9, 120, 0.7)'
+            ]
+        }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Formats de votre collection',
+        fontSize: 16
+      },
+      legend : {
+        display: true,
+        position: 'bottom',
+        labels: {
+          fontSize: 10,
+          boxWidth: 20,
+          usePointStyle: true
+        }
+      }
+    }
+});
+
+    // Chart : Format Perennity
+var ctx = document.getElementById('formatPerennityChart').getContext('2d');
+var formatPerennityChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['0-25', '25-50', '50-75', '75-100'],
+        datasets: [{
+            label: 'Format perennity distribution',
+            data: [1, 4, 4, 20],
+            backgroundColor: [
+                'rgba(255, 80, 80, 0.7)',
+                'rgba(255, 186, 80, 0.7)',
+                'rgba(223, 250, 79, 0.7)',
+                'rgba(94, 231, 72, 0.7)'
+            ]
+        }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Pérennité des formats',
+        fontSize: 16
+      },
+      legend : {
+        display: true,
+        position: 'bottom',
+        labels: {
+          fontSize: 10,
+          boxWidth: 20,
+          usePointStyle: true
+        }
+      }
+    }
+});
+    
+      // Chart : Format Validation
+var ctx = document.getElementById('formatValidationChart').getContext('2d');
+var formatValidationChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Non valide', 'Valide'],
+        datasets: [{
+            label: 'Format validation distribution',
+            data: [3, 29],
+            backgroundColor: [
+                'rgba(255, 80, 80, 0.7)',
+                'rgba(94, 231, 72, 0.7)'
+            ]
+        }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Validation des formats',
+        fontSize: 16
+      },
+      legend : {
+        display: true,
+        position: 'bottom',
+        labels: {
+          fontSize: 10,
+          boxWidth: 20,
+          usePointStyle: true
+        }
+      }
+    }
+});
 
   </script>
 
