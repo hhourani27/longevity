@@ -160,11 +160,13 @@ VALUES
 
 INSERT INTO collection(id,name,description,organisation_id)
 VALUES
-	(1,'Manuscripts de Caedmon','Collection contenant les Manuscripts de Caedmon', 1),
-	(2,'Apocalypse flamande','Collection contenant Apocalypse flamande', 1);
+	(1,'Manuscripts de Leonardo di Vinci','Collection contenant les Manuscripts de Leonardo di Vinci', 1),
+	(2,'Manuscrits flamands','Collection contenant les numérisations de Manusctipts flamands', 1),
+	(3,'Musique historique Allemande','Collection contenant la Musique historique Allemande', 1);
 
 
 INSERT INTO storage_strategy(id,collection_id,strategy)
 VALUES
 	(1,1,'{"strategy":{"level":1,"redundancy":{"provider":0,"location":0},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":16,"region":"","country":"","provider":{"id":1,"name":""}},{"id":27,"region":"","country":"","provider":{"id":2,"name":""}},{"id":86,"region":"","country":"","provider":{"id":3,"name":""}}]}}'),
-	(2,2,'{"strategy":{"level":1,"redundancy":{"provider":0,"location":0},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":17,"region":"","country":"","provider":{"id":1,"name":""}},{"id":66,"region":"","country":"","provider":{"id":3,"name":""}}]}}')
+	(2,2,'{"strategy":{"level":1,"redundancy":{"provider":0,"location":0},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":17,"region":"","country":"","provider":{"id":1,"name":""}},{"id":66,"region":"","country":"","provider":{"id":3,"name":""}}]}}'),
+	(3,3,'{"strategy":{"level":1,"redundancy":{"provider":0,"location":0},"regions":["Europe","Amérique du Nord"]},"instance":{"storage_locations":[{"id":17,"region":"","country":"","provider":{"id":1,"name":""}},{"id":66,"region":"","country":"","provider":{"id":3,"name":""}}]}}');

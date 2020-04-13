@@ -1,0 +1,93 @@
+{% extends "admin.html" %}
+
+{% block page_content %}
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Lorsque Longevity fait faillite</h4>
+		  <p class="card-description">
+		  Si nous ne pouvions plus assurer la continuité de notre service : 
+		  </p>
+		  <ul class="list-ticked">
+            <li>Vos données, métadonnées et historique vous seront restitutés : téléchargeables ou envoyés sur un disque dur par la poste (<a href="">pourquoi un disque dur?</a>)</li>
+            <li>Une documentation électronique pour lire et parcourir vos données sur ce support physique</li>
+            <li>Une documentation électronique pour exploiter les formats de données que votre collection emploie</li>
+            <li><span class="font-weight-bold">Notre base de connaissance sera mise dans le domaine public</span></li>
+          </ul>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-8 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Un fond testamental pour assurer une continuité de service</h4>
+		  <p class="card-description">
+		  Consultez le document notarial de continuité : <a href="">Lire</a>
+		  </p>
+          <p class="card-description">
+		  Un fond, alimenté par vos abonnements, sera débloqué lorsque les condiditions de faillite du code des sociétés art. 131, 1991, sera engagé, il permet de : 
+		  </p>
+		  <ul class="list-ticked">
+            <li>Assurer un service durant la période de liquidité</li>
+            <li>Débloquer les ressources pour assurer la communication, la récupération et l'envoi de vos données</li>
+          </ul>
+	  </div>
+    </div>
+  </div>
+    <div class="col-4 grid-margin stretch-card">
+	  <div class="card bg-gradient-success card-img-holder text-white">
+	    <div class="card-body">
+		  <img src="{{ url_for('static',filename='images/circle.svg') }}" class="card-img-absolute" alt="circle-image" />
+		    <h4 class="font-weight-normal mb-5">Fond de continuité<i class="mdi mdi-emoticon mdi-24px float-right"></i>
+            </h4>
+			<h1 class="mb-3 display1">3 431 482 €</h1>
+		</div>
+	  </div>
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Une répétition annuelle du plan de recouvrement</h4>
+		  <p class="card-description">
+		  Tous les ans, nous effectuons une simulation d'une situation catastrophe pour une partie de nos clients. Pour tester une situation de crise, vous pouvez vous participer à la prochaine simulation
+		  </p>
+          <button type="button" class="btn btn-gradient-primary btn-fw">Inscrivez-vous à la prochaine simulaton</button>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Lorsque votre abonnement s'arrête</h4>
+		<p class="card-description">
+		  Que ferons-nous ?
+		 </p>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+	<div class="card">
+	  <div class="card-body">
+	    <h4 class="card-title">Lorsque notre société se fait racheter</h4>
+		<p class="card-description">
+		  Que ferons-nous ?
+		 </p>
+	  </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

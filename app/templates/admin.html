@@ -50,14 +50,13 @@
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                  <img src="{{ url_for('static',filename='images/faces/face1.jpg') }}" alt="profile">
+                  <img src="{{ url_for('static',filename='images/logos/logo_institution.svg') }}" alt="profile">
                   <span class="login-status online"></span>
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
                   <span class="font-weight-bold mb-2">{{ current_user.organisation.name }}</span>
                 </div>
-                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </a>
             </li>
             <li class="nav-item">
@@ -114,7 +113,7 @@
                 <li class="nav-item"> <a class="nav-link" href="">Sécurité</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ url_for('doc_format') }}">Formats</a></li>
                 <li class="nav-item"> <a class="nav-link" href="">Accessibilité</a></li>
-                <li class="nav-item"> <a class="nav-link" href="">Recouvrement</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ url_for('doc_continuite') }}">Continuité</a></li>
                 </ul>
               </div>
             </li>

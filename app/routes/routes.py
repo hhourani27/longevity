@@ -192,3 +192,8 @@ def doc_storage(id):
 @login_required
 def doc_format():
     return render_template('doc_format.html', title='Format')
+    
+@app.route('/doc/continuite', methods=['GET'])
+@login_required
+def doc_continuite():
+    return render_template('doc_continuite.html', title='Continuité')
