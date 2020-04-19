@@ -6,6 +6,7 @@ class Format(db.Model):
     media = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(50), nullable=False)
     version = db.Column(db.String(50))
+    extension = db.Column(db.String(50), nullable=False)
     
     assets = db.relationship('DigitalAsset', backref='format', lazy='dynamic')
 

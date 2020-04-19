@@ -10,3 +10,7 @@ img.center {
 img.img-link {
 	cursor: pointer;
 }
+
+p.center {
+    text-align: center;
+}

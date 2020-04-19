@@ -100,10 +100,13 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Aperçu</h4>
-            {% if asset.format.media == 'image' %}
+            {% if viewer == 'IMG_HTML' %}
             <img src="{{asset.id}}/data" class="mw-100 w-100 rounded">
-            {% elif asset.format.media == 'audio' %}
-            <img id="audio-player" src="{{ url_for('static',filename='images/play-button.png') }}" width="150" class="center img-link" onclick="playAudio()"></i>
+            {% elif viewer == 'IMG_PLACEHOLDER' %}
+            <a href="{{asset.id}}/data"> <img src="{{ url_for('static',filename='images/formats/tiff.svg') }}" width="150" class="center img-link"></img></a>
+            <p class="center text-muted">Les fichiers <span class="font-weight-bold text-uppercase">{{asset.format.name}}</span> ne peuvent pas être affichés sur votre navigateur. Cliquez ici pour visualiser le fichier</p>
+            {% elif viewer == 'AUDIO_HOWLER' %}
+            <img id="audio-player" src="{{ url_for('static',filename='images/play-button.png') }}" width="150" class="center img-link" onclick="playAudio()"></img>
             {% endif %}
         </div>
       </div>

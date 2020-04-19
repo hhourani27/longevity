@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, SelectField, MultipleFileField
 from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm) :
@@ -11,9 +11,8 @@ class LoginForm(FlaskForm) :
 
 class AssetUploadForm(FlaskForm) :
     collection = SelectField('Collection', choices=[], coerce=int, validators=[DataRequired()])
-    name = StringField('Name', validators=[DataRequired()])
     format = SelectField('Format', choices=[], coerce=int, validators=[DataRequired()])
-    file = FileField(validators=[FileRequired()])
+    files = MultipleFileField()
     submit = SubmitField('Submit')
     
 

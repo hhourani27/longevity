@@ -114,17 +114,28 @@ def collection(id) :
 def asset_info(id):
     form = AssetGetForm()
     if id is not None :
-        # Get asset
+        # (1) Get asset
         asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
         
         # If no asset of this id exists in this organisation
         if asset is None :
             return render_template('asset.html', title='Asset', form=form, asset=asset, searched_id=id)
         
-        # Get storage location
+        # (2) Choose viewer 
+        if asset.format.media == 'image':
+            if asset.format.name in ['jpeg','png']:
+                viewer = 'IMG_HTML'
+            else :
+                viewer = 'IMG_PLACEHOLDER'
+        elif asset.format.media == 'audio':
+            viewer = 'AUDIO_HOWLER'
+        else:
+            viewer = 'FILE_PLACEHOLDER'
+        
+        # (3) Get storage locations
         storage_locations = [asl.data_storage_location for asl in asset.storage_locations]
         
-        # Get asset history
+        # (4) Get asset history
         asset_history = asset.asset_history.all()        
         storage_history = asset.storage_history.all()
         history_list = asset_history + storage_history
@@ -138,7 +149,7 @@ def asset_info(id):
         # Pre-fill search bar
         form.id.data = id
         
-        return render_template('asset.html', title='Asset', form=form, asset=asset, storage_locations=storage_locations, history_table=history_table, searched_id=id)
+        return render_template('asset.html', title='Asset', form=form, asset=asset, viewer=viewer, storage_locations=storage_locations, history_table=history_table, searched_id=id)
     else:
         return render_template('asset.html', title='Asset', form=form)
 
@@ -164,21 +175,29 @@ def upload():
     # Populate combo boxes
     form.collection.choices = [(col.id,col.name) for col in CollectionService.get_all()]
     form.format.choices = [(f.id,f.display_name()) for f in FormatService.get_all()]
-    
-    if form.validate_on_submit():
-        filename = secure_filename(form.file.data.filename)
-        digital_asset = DigitalAsset(name=form.name.data, format_id=form.format.data, filename=filename, organisation_id=current_user.organisation_id, collection_id=form.collection.data)
 
-        # Get file data and save it to byte array
-        data = form.file.data.read()
-        form.file.data.close()
+    if form.validate_on_submit():
+        print('ICI2')
+        print(len(form.files.data))
         
-        # Create and store data
-        AssetService.add_and_store(digital_asset,data)
+        for file in form.files.data:
+            filename = secure_filename(file.filename)
+            digital_asset = DigitalAsset(name=filename, format_id=form.format.data, filename=filename, organisation_id=current_user.organisation_id, collection_id=form.collection.data)
+
+            # Get file data and save it to byte array
+            data = file.read()
+            file.close()
+            
+            # Create and store data
+            AssetService.add_and_store(digital_asset,data)
         
         return redirect(url_for('asset_info') + '/' + str(digital_asset.id))
-
     
+    else :
+        for fieldName, errorMessages in form.errors.items():
+            for err in errorMessages:
+                flash('{}: {}'.format(fieldName,err))
+                
     return render_template('upload.html', title='Upload asset', form=form)
 
 @app.route('/doc/storage/<id>', methods=['GET'])

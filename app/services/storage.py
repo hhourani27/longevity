@@ -173,10 +173,7 @@ class LocalFileStorageManager(StorageManager) :
         if not data_storage_path.exists():
             data_storage_path.mkdir()
         
-        filename = digital_asset.filename
-        file_storage_name = str(digital_asset.id)
-        if '.' in filename:
-            file_storage_name += filename[filename.find('.'):]
+        file_storage_name = str(digital_asset.id) + '.' + digital_asset.format.extension
         
         file_path = data_storage_path.joinpath(file_storage_name)
         file_path.write_bytes(data)

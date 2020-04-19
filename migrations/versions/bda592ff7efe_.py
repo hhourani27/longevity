@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e0e8e7232614
+Revision ID: bda592ff7efe
 Revises: 
-Create Date: 2020-03-31 19:31:06.567636
+Create Date: 2020-04-19 15:55:58.013744
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e0e8e7232614'
+revision = 'bda592ff7efe'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,6 +33,7 @@ def upgrade():
     sa.Column('media', sa.String(length=50), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('version', sa.String(length=50), nullable=True),
+    sa.Column('extension', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('organisation',
@@ -44,6 +45,7 @@ def upgrade():
     op.create_table('storage_data_provider',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
+    sa.Column('description', sa.String(length=1024), nullable=True),
     sa.Column('ind_current_ratio', sa.String(length=10), nullable=True),
     sa.Column('ind_quick_ratio', sa.String(length=10), nullable=True),
     sa.Column('ind_return_on_assets', sa.String(length=10), nullable=True),
