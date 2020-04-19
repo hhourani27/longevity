@@ -21,12 +21,12 @@ VALUES
 	(1,'habib','h.hourany@gmail.com','Habib','El Hourani','pbkdf2:sha256:150000$BUabOlFq$efd6e49727596d8522bc1759bdaa4dccaffdc50e2e645dd962ebf8a5bf5413fd',1);
 
 
-INSERT INTO format(id,media,name,version,extension)
+INSERT INTO format(id,media,name,version,extension,color)
 VALUES
-	(1,'image','jpeg','','jpeg'),
-	(2,'image','png','','png'),
-	(3,'image','tiff','','tiff'),
-	(4,'audio','ogg','','ogg');
+	(1,'image','jpeg','','jpeg','#88CC88'),
+	(2,'image','png','','png','#55AA55'),
+	(3,'image','tiff','','tiff','#2D882D'),
+	(4,'audio','ogg','','ogg','#FFBF6F');
 
 INSERT INTO country(id,name,region,ind_fragile_state_index,ind_ict_dev_index,ind_hdi)
 VALUES

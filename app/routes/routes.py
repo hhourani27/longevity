@@ -11,6 +11,7 @@ from app.models.format import Format
 from app.services.asset import AssetService, CollectionService
 from app.services.storage import StorageService
 from app.services.format import FormatService
+import json
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -83,12 +84,21 @@ def collection(id) :
             
         # Get collection statistics
         asset_count = AssetService.count(collection)
-        
-        storage_locations = StorageService.getStorageLocations(collection=collection, used_only = True)
-        storage_regions = StorageService.getStorageRegions(collection=collection, used_only = True)
-        storage_providers = StorageService.getDataProviders(collection=collection, used_only = True)
-        
         read_count = StorageService.getDataReadCount(collection)
+        
+        # Get format statistics
+        format_distribution = AssetService.count_by_format(collection)
+        format_distribution_chart = dict()
+        format_distribution_chart['labels'] = [f[0].name for f in format_distribution]
+        format_distribution_chart['data'] = [f[1] for f in format_distribution]
+        format_distribution_chart['backgroundColor'] = [f[0].color for f in format_distribution]
+        
+        print('ICI')
+        print(format_distribution_chart)
+
+        
+        # Get Storage locations        
+        storage_locations = StorageService.getStorageLocations(collection=collection, used_only = True)
         
         # Recreate collection select form with default value
         collection_select_form = CollectionGetForm(collections_to_select, default=id)
@@ -98,9 +108,8 @@ def collection(id) :
                 collection_select_form=collection_select_form,
                 asset_count = asset_count,
                 read_count = read_count,
+                format_distribution_chart = format_distribution_chart,
                 storage_locations = storage_locations,
-                storage_regions = storage_regions,
-                storage_providers = storage_providers
                 )
     
     else :
@@ -177,9 +186,6 @@ def upload():
     form.format.choices = [(f.id,f.display_name()) for f in FormatService.get_all()]
 
     if form.validate_on_submit():
-        print('ICI2')
-        print(len(form.files.data))
-        
         for file in form.files.data:
             filename = secure_filename(file.filename)
             digital_asset = DigitalAsset(name=filename, format_id=form.format.data, filename=filename, organisation_id=current_user.organisation_id, collection_id=form.collection.data)

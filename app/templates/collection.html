@@ -171,6 +171,9 @@
 {% endblock %}
 
 {% block script %}
+{% if collection is defined %}
+{% if collection is not none %}
+
     <script type="text/javascript">
       var mymap = L.map('mapid').setView([20, 0], 1);
       
@@ -195,16 +198,11 @@ var ctx = document.getElementById('formatDistributionChart').getContext('2d');
 var formatDistributionChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-        labels: ['jpeg', 'png', 'pdf', 'ogg'],
+        labels: {{format_distribution_chart['labels']|safe}},
         datasets: [{
             label: 'Format distribution',
-            data: [12, 19, 3, 5],
-            backgroundColor: [
-                'rgba(172, 0, 0, 0.7)',
-                'rgba(255, 80, 80, 0.7)',
-                'rgba(255, 228, 0, 0.7)',
-                'rgba(17, 9, 120, 0.7)'
-            ]
+            data: {{format_distribution_chart['data']|safe}},
+            backgroundColor: {{format_distribution_chart['backgroundColor']|safe}}
         }]
     },
     options: {
@@ -328,6 +326,8 @@ var storagePerennityChart = new Chart(ctx, {
     }
 });
 
+{% endif %}
+{% endif %}
   </script>
 
 {% endblock %}

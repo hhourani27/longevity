@@ -8,6 +8,8 @@ class Format(db.Model):
     version = db.Column(db.String(50))
     extension = db.Column(db.String(50), nullable=False)
     
+    color = db.Column(db.String(50), nullable=False)
+    
     assets = db.relationship('DigitalAsset', backref='format', lazy='dynamic')
 
     def __repr__(self):

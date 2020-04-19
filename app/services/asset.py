@@ -1,7 +1,9 @@
 from app import app, db
 from app.models.asset import DigitalAsset, DigitalAssetHistory, Collection
+from app.models.format import Format
 from app.services.storage import StorageService
 from flask_login import current_user
+from sqlalchemy import func
 
 class AssetService : 
     @staticmethod
@@ -11,6 +13,16 @@ class AssetService :
         else :
             return DigitalAsset.query.filter_by(organisation_id=current_user.organisation.id, collection_id=collection.id).count()
             
+    def count_by_format(collection=None):
+        query = db.session().query(Format, func.count(Format.id)).join(DigitalAsset)
+        if collection is not None :
+            query = query.filter(DigitalAsset.collection_id == collection.id)
+        query = query.group_by(Format)
+        
+        return query.all()
+        
+                
+    
     @staticmethod
     def get(id) :
         asset = DigitalAsset.query.filter_by(id=id, organisation_id=current_user.organisation_id).first()
